@@ -40,9 +40,17 @@ class Config:
 
     @staticmethod
     def base_model():
-        processor = WhisperProcessor.from_pretrained(Config.MODEL_NAME, language="English", task="transcribe")
-        model = WhisperForConditionalGeneration.from_pretrained(Config.MODEL_NAME)
+        processor = WhisperProcessor.from_pretrained(Config.__MODEL_NAME, language="English", task="transcribe")
+        model = WhisperForConditionalGeneration.from_pretrained(Config.__MODEL_NAME)
         return processor, model
+
+    @staticmethod
+    def adapter_names():
+        return Config.__ADAPTER_NAMES
+
+    @staticmethod
+    def lora_age_buckets():
+        return Config.__LORA_AGE_BUCKETS
 
     def __init__(self, is_inference=True):
         torch.manual_seed(self.__SEED)
@@ -76,7 +84,7 @@ class Config:
         return "cpu"
 
     def adapter_weights_path(self, adapter: str):
-        assert adapter in Config.ADAPTER_NAMES, f"Adapter {adapter} not found in {Config.ADAPTER_NAMES}"
+        assert adapter in Config.adapter_names(), f"Adapter {adapter} not found in {Config.adapter_names()}"
         if adapter in Config.LORA_ADAPTER_NAMES:
             path = self.__LORA_ADAPTER_DIRS[adapter]
         elif adapter == "gate_mlp":
@@ -84,3 +92,11 @@ class Config:
         else:   # adapter == "unique_subjects"
             path = self.__UNIQUE_SUBJECTS_DIR
         return path
+
+class TrainingConfig:
+    def __init__(self, adapter_name: str, train_json: str, val_json: str, age_group: str = None):
+        self.adapter_name = adapter_name
+        assert self.adapter_name in Config.adapter_names(), f"Adapter {self.adapter_name} not found in {Config.adapter_names()}"
+        self.train_json = train_json
+        self.val_json = val_json
+        self.age_group = age_group
