@@ -21,10 +21,14 @@ class Config:
     # DATA
     # __DATA_DIR: where JSON manifest files live (local to this project)
     __DATA_DIR = __MAIN_DIR / "data"
-    # __AUDIO_ROOT: root that audio_path entries in the JSONs are relative to.
-    # Override via Config.set_audio_root() before training if the dataset lives
-    # somewhere other than the default below.
-    __AUDIO_ROOT: Path = __MAIN_DIR / "audio"
+    # External dataset layout:
+    #   __BASE_DATA_DIR/
+    #     audio/   ← audio_path values in JSON manifests are relative to this
+    #     noise/   ← background-noise files for augmentation
+    # Each can be overridden independently via Config.set_*() class methods.
+    __BASE_DATA_DIR: Path = Path("/cs/student/projects3/COMP0158/grp_1/data")
+    __AUDIO_DIR: Path | None = None   # None → derived from __BASE_DATA_DIR
+    __NOISE_DIR: Path | None = None   # None → derived from __BASE_DATA_DIR
 
     # LoRA
     __LORA_AGE_BUCKETS   = ["3-4", "5-7", "8-11"]
@@ -35,9 +39,19 @@ class Config:
     # ── class-level setters ──────────────────────────────────────────────────
 
     @classmethod
-    def set_audio_root(cls, path) -> None:
-        """Set the root directory that audio_path values in JSON manifests are relative to."""
-        cls.__AUDIO_ROOT = Path(path)
+    def set_base_data_dir(cls, path) -> None:
+        """Override the base dataset directory (parent of audio/ and noise/)."""
+        cls.__BASE_DATA_DIR = Path(path)
+
+    @classmethod
+    def set_audio_dir(cls, path) -> None:
+        """Override the audio directory independently of base_data_dir."""
+        cls.__AUDIO_DIR = Path(path)
+
+    @classmethod
+    def set_noise_dir(cls, path) -> None:
+        """Override the noise directory independently of base_data_dir."""
+        cls.__NOISE_DIR = Path(path)
 
     # ── static accessors ────────────────────────────────────────────────────
 
@@ -63,9 +77,18 @@ class Config:
         return Config.__DATA_DIR
 
     @staticmethod
-    def audio_root() -> Path:
+    def audio_dir() -> Path:
         """Root directory prepended to audio_path values found in JSON manifests."""
-        return Config.__AUDIO_ROOT
+        if Config.__AUDIO_DIR is not None:
+            return Config.__AUDIO_DIR
+        return Config.__BASE_DATA_DIR / "audio"
+
+    @staticmethod
+    def noise_dir() -> Path:
+        """Directory containing background-noise files for augmentation."""
+        if Config.__NOISE_DIR is not None:
+            return Config.__NOISE_DIR
+        return Config.__BASE_DATA_DIR / "noise"
 
     @staticmethod
     def base_model():
@@ -152,7 +175,7 @@ class TrainingConfig:
 
     ``train_json`` and ``val_json`` are **filenames** (e.g. ``train_by_age_bucket_3_4.json``).
     They are resolved at training time as ``Config.data_dir() / <filename>``.
-    Audio paths inside the JSON are resolved as ``Config.audio_root() / record["audio_path"]``.
+    Audio paths inside the JSON are resolved as ``Config.audio_dir() / record["audio_path"]``.
     """
 
     # LoRA architecture

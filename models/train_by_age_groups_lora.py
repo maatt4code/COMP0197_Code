@@ -197,7 +197,7 @@ class LoraAdapter:
         assert train_path.exists(), f"Train JSON not found: {train_path}"
         assert val_path.exists(),   f"Val JSON not found: {val_path}"
 
-        audio_root  = Config.audio_root()
+        audio_root  = Config.audio_dir()
         train_data  = _load_json(train_path)
         val_data    = _load_json(val_path)
 

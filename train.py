@@ -146,19 +146,31 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--base-data-dir",
+        type=Path,
+        default=None,
+        help=(
+            "Base dataset directory (parent of audio/ and noise/).\n"
+            f"Default: {Path('/cs/student/projects3/COMP0158/grp_1/data')}"
+        ),
+    )
+    parser.add_argument(
         "--audio-dir",
         type=Path,
         default=None,
         help=(
-            "Root directory that audio_path values in JSON manifests are relative to.\n"
-            "Overrides Config.audio_root()."
+            "Audio root directory (audio_path values in JSONs are relative to this).\n"
+            "Default: <base-data-dir>/audio/"
         ),
     )
     parser.add_argument(
         "--noise-dir",
         type=Path,
         default=None,
-        help="Directory of background-noise files for augmentation (optional).",
+        help=(
+            "Noise files directory for augmentation.\n"
+            "Default: <base-data-dir>/noise/"
+        ),
     )
     parser.add_argument(
         "--mock",
@@ -177,8 +189,12 @@ def parse_args() -> argparse.Namespace:
 def main():
     args = parse_args()
 
+    if args.base_data_dir is not None:
+        Config.set_base_data_dir(args.base_data_dir)
     if args.audio_dir is not None:
-        Config.set_audio_root(args.audio_dir)
+        Config.set_audio_dir(args.audio_dir)
+    if args.noise_dir is not None:
+        Config.set_noise_dir(args.noise_dir)
 
     config = Config(is_inference=False)
 
@@ -189,8 +205,8 @@ def main():
     ensemble_prereqs = ENSEMBLE_DEPS if args.train_ensemble else []
 
     print(f"Device        : {config.device()}")
-    print(f"Audio root    : {Config.audio_root()}")
-    print(f"Noise dir     : {args.noise_dir or '(none)'}")
+    print(f"Audio dir     : {Config.audio_dir()}")
+    print(f"Noise dir     : {Config.noise_dir()}")
     print(f"Mock mode     : {args.mock}")
     print(f"Adapters      : {adapters_to_train}")
     print(f"Prerequisites : {prereqs or '(none)'}")
