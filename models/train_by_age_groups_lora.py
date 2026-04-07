@@ -162,12 +162,13 @@ class LoraAdapter:
     """Trains a LoRA adapter for one age bucket and saves the best checkpoint."""
 
     def __init__(self, config: Config, age_bucket: str, base_model, processor: WhisperProcessor,
-                 mock: bool = False):
+                 mock: bool = False, ta_train: bool = False):
         self.config     = config
         self.device     = config.device()
         self.processor  = processor
         self.age_bucket = age_bucket
         self.mock        = mock
+        self.ta_train    = ta_train
         # Snapshot base model weights + config on CPU so _build_lora_model() can
         # construct a fresh unwrapped instance each time without hitting HuggingFace
         # and without ever calling get_peft_model() on an already-wrapped model.
@@ -201,10 +202,18 @@ class LoraAdapter:
         train_data  = _load_json(train_path)
         val_data    = _load_json(val_path)
 
+        n_epochs = TrainingConfig.NUM_EPOCHS
+        if self.ta_train:
+            train_data = train_data[:TrainingConfig.TA_TRAIN_SAMPLES]
+            val_data   = val_data[:TrainingConfig.TA_TRAIN_SAMPLES]
+            n_epochs   = TrainingConfig.TA_TRAIN_EPOCHS
+
         print(f"\n{'='*60}")
-        print(f"  LoRA training — age bucket [{self.age_bucket}]")
-        print(f"  Train: {len(train_data)}  Val: {len(val_data)}")
-        print(f"  Device: {self.device}")
+        print(f"  LoRA training — age bucket [{self.age_bucket}]"
+              + (" [TA_TRAIN]" if self.ta_train else ""))
+        print(f"  Train JSON : {train_path}  ({len(train_data)} records)")
+        print(f"  Val JSON   : {val_path}  ({len(val_data)} records)")
+        print(f"  Epochs: {n_epochs}  Device: {self.device}")
         print('='*60)
 
         model = self._build_lora_model()
@@ -221,7 +230,7 @@ class LoraAdapter:
             per_device_eval_batch_size  = TrainingConfig.BATCH_SIZE,
             gradient_accumulation_steps = 1,
             warmup_steps                = TrainingConfig.WARMUP_STEPS,
-            num_train_epochs            = TrainingConfig.NUM_EPOCHS,
+            num_train_epochs            = n_epochs,
             learning_rate               = TrainingConfig.LEARNING_RATE,
             fp16                        = (self.device == "cuda"),
             eval_strategy               = "epoch",
@@ -253,7 +262,7 @@ class LoraAdapter:
             eval_dataset    = val_ds,
             data_collator   = collator,
             compute_metrics = _compute_metrics,
-            tokenizer       = self.processor.feature_extractor,
+            processing_class = self.processor.feature_extractor,
         )
         trainer.train()
 

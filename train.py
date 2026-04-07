@@ -1,4 +1,5 @@
 import argparse
+import sys
 from config import Config, TrainingConfig
 from models import train_by_age_groups_lora
 from models import train_by_age_groups_gatingmlp
@@ -19,10 +20,10 @@ ALL_ADAPTERS = [
 # Prerequisites that must be loaded (from best weights) before training a given adapter.
 # Prereqs listed here are loaded but NOT trained unless also in --adapters.
 ADAPTER_DEPS: dict[str, list[str]] = {
-    "age_3_4":        [],
-    "age_5_7":        [],
-    "age_8_11":       [],
-    "gate_mlp":       ["age_3_4", "age_5_7", "age_8_11"],
+    "age_3_4":         [],
+    "age_5_7":         [],
+    "age_8_11":        [],
+    "gate_mlp":        ["age_3_4", "age_5_7", "age_8_11"],
     "unique_subjects": [],
 }
 ENSEMBLE_DEPS = ALL_ADAPTERS  # ensemble needs everything
@@ -50,6 +51,14 @@ ADAPTER_TO_TRAINING_CONFIG: dict[str, TrainingConfig] = {
 }
 
 
+# ── Training mode ─────────────────────────────────────────────────────────────
+
+class TrainingMode:
+    MOCK        = "mock"
+    TA_TRAIN    = "ta_train"
+    REALLY_TRAIN = "really_train"
+
+
 # ── Prerequisite resolution ───────────────────────────────────────────────────
 
 def _prereqs_for(adapters_to_train: list[str]) -> list[str]:
@@ -68,12 +77,20 @@ def _prereqs_for(adapters_to_train: list[str]) -> list[str]:
 # ── Factory ───────────────────────────────────────────────────────────────────
 
 class AdapterTrainerFactory:
-    def __init__(self, config: Config, mock: bool = False):
+    def __init__(self, config: Config, mode: str):
         self.config            = config
-        self.mock              = mock
+        self.mode              = mode
         self.device            = config.device()
         self.prereq_peft_model = None
         self.base_model_processor, self.base_model = config.base_model()
+
+    @property
+    def _mock(self) -> bool:
+        return self.mode == TrainingMode.MOCK
+
+    @property
+    def _ta_train(self) -> bool:
+        return self.mode == TrainingMode.TA_TRAIN
 
     def load_prereqs(self, prereq_adapters: list[str]) -> None:
         """Load prerequisite adapters from weights/best/ into self.prereq_peft_model."""
@@ -96,7 +113,7 @@ class AdapterTrainerFactory:
         if adapter_name.startswith("age_"):
             return train_by_age_groups_lora.LoraAdapter(
                 self.config, cfg.age_group, self.base_model, self.base_model_processor,
-                mock=self.mock,
+                mock=self._mock, ta_train=self._ta_train,
             )
         elif adapter_name == "gate_mlp":
             assert self.prereq_peft_model is not None, (
@@ -104,11 +121,12 @@ class AdapterTrainerFactory:
             )
             return train_by_age_groups_gatingmlp.GatingMLPAdapter(
                 self.config, self.prereq_peft_model, self.base_model_processor,
-                mock=self.mock,
+                mock=self._mock, ta_train=self._ta_train,
             )
         elif adapter_name == "unique_subjects":
             return train_by_unique_subjects.UniqueSubjectsAdapter(
-                self.config, self.base_model, self.base_model_processor
+                self.config, self.base_model, self.base_model_processor,
+                mock=self._mock, ta_train=self._ta_train,
             )
         else:
             raise ValueError(f"Unknown adapter name: {adapter_name!r}")
@@ -142,7 +160,8 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help=(
             "Train the ensemble on top of all adapters.\n"
-            "All adapters are loaded from weights/best/ as prerequisites."
+            "All adapters are loaded from weights/best/ as prerequisites.\n"
+            "Cannot be used with --really-train."
         ),
     )
     parser.add_argument(
@@ -172,16 +191,71 @@ def parse_args() -> argparse.Namespace:
             "Default: <base-data-dir>/noise/"
         ),
     )
-    parser.add_argument(
+
+    # ── Mutually exclusive training modes (default: mock) ─────────────────────
+    mode_group = parser.add_mutually_exclusive_group()
+    mode_group.add_argument(
         "--mock",
         action="store_true",
+        default=True,
         help=(
-            "Mock mode: skip training loops.\n"
-            "  - For adapters being 'trained': load and verify their adapter_config.json.\n"
-            "  - Prerequisites are still loaded from weights/best/ as normal."
+            "[DEFAULT] Mock mode: skip training loops.\n"
+            "  Loads and verifies adapter_config.json from weights/best/.\n"
+            "  Prerequisites are still loaded from weights/best/ as normal."
+        ),
+    )
+    mode_group.add_argument(
+        "--ta-train",
+        action="store_true",
+        help=(
+            f"TA verification mode: train on {TrainingConfig.TA_TRAIN_SAMPLES} samples "
+            f"for {TrainingConfig.TA_TRAIN_EPOCHS} epochs only.\n"
+            "Lets TAs verify training code without a full dataset or GPU."
+        ),
+    )
+    mode_group.add_argument(
+        "--really-train",
+        action="store_true",
+        help=(
+            "Full training mode: train on the complete dataset.\n"
+            "Requires explicit confirmation at the prompt.\n"
+            "Cannot be combined with --train-ensemble."
         ),
     )
     return parser.parse_args()
+
+
+def _resolve_mode(args: argparse.Namespace) -> str:
+    """Return the active TrainingMode, validate exclusivity rules, prompt if needed."""
+    # argparse mutually_exclusive_group prevents >1 flag being set,
+    # but --mock has default=True so we need to detect the *explicit* intent.
+    if args.really_train:
+        if args.train_ensemble:
+            print(
+                "ERROR: --really-train and --train-ensemble cannot be used together.\n"
+                "       --train-ensemble loads adapter weights from weights/best/; "
+                "using freshly trained (not yet saved) weights is not supported.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        # Prompt for confirmation
+        print("=" * 60)
+        print("  WARNING: REALLY_TRAIN mode selected.")
+        print(f"  Adapters : {args.adapters or 'all'}")
+        print(f"  Audio dir: {Config.audio_dir()}")
+        print("  This will run a FULL training run. This may take a long time.")
+        print("=" * 60)
+        answer = input("  Type 'yes' to proceed: ").strip().lower()
+        if answer != "yes":
+            print("Aborted.")
+            sys.exit(0)
+        return TrainingMode.REALLY_TRAIN
+
+    if args.ta_train:
+        return TrainingMode.TA_TRAIN
+
+    # Default (--mock or no flag given)
+    return TrainingMode.MOCK
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
@@ -196,29 +270,33 @@ def main():
     if args.noise_dir is not None:
         Config.set_noise_dir(args.noise_dir)
 
+    mode = _resolve_mode(args)
+
     config = Config(is_inference=False)
 
     adapters_to_train: list[str] = args.adapters if args.adapters is not None else [
         a for a in ALL_ADAPTERS if a != "gate_mlp"  # gate_mlp excluded until implemented
     ]
-    prereqs = _prereqs_for(adapters_to_train)
+    prereqs          = _prereqs_for(adapters_to_train)
     ensemble_prereqs = ENSEMBLE_DEPS if args.train_ensemble else []
 
     print(f"Device        : {config.device()}")
     print(f"Audio dir     : {Config.audio_dir()}")
     print(f"Noise dir     : {Config.noise_dir()}")
-    print(f"Mock mode     : {args.mock}")
+    print(f"Training mode : {mode}")
     print(f"Adapters      : {adapters_to_train}")
     print(f"Prerequisites : {prereqs or '(none)'}")
     print(f"Train ensemble: {args.train_ensemble}")
 
-    factory = AdapterTrainerFactory(config, mock=args.mock)
+    factory = AdapterTrainerFactory(config, mode=mode)
 
-    # Load prerequisites (adapters required by the targets but not being trained)
-    all_prereqs = list(dict.fromkeys(prereqs + [p for p in ensemble_prereqs if p not in adapters_to_train]))
+    # Load prerequisites (adapters required by targets but not being trained)
+    all_prereqs = list(dict.fromkeys(
+        prereqs + [p for p in ensemble_prereqs if p not in adapters_to_train]
+    ))
     factory.load_prereqs(all_prereqs)
 
-    # Train (or mock-train) each requested adapter
+    # Train each requested adapter
     for adapter_name in adapters_to_train:
         cfg: TrainingConfig = ADAPTER_TO_TRAINING_CONFIG[adapter_name]
         print(f"\nAdapter: {cfg.adapter_name} | train={cfg.train_json} | val={cfg.val_json}")

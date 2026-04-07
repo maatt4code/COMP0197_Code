@@ -143,12 +143,14 @@ class GatingMLPAdapter:
         peft_model: PeftModel,
         processor: WhisperProcessor,
         mock: bool = False,
+        ta_train: bool = False,
     ):
         self.config     = config
         self.device     = config.device()
         self.peft_model = peft_model.to(self.device).eval()
         self.processor  = processor
         self.mock       = mock
+        self.ta_train   = ta_train
 
     # ── public API ────────────────────────────────────────────────────────────
 
@@ -176,10 +178,17 @@ class GatingMLPAdapter:
         val_data       = _load_json(val_path)
         age_bucket_map = {b: i for i, b in enumerate(Config.lora_age_buckets())}
 
+        n_epochs = GATE_EPOCHS
+        if self.ta_train:
+            train_data = train_data[:TrainingConfig.TA_TRAIN_SAMPLES]
+            val_data   = val_data[:TrainingConfig.TA_TRAIN_SAMPLES]
+            n_epochs   = TrainingConfig.TA_TRAIN_EPOCHS
+
         print(f"\n{'='*60}")
-        print(f"  GatingMLP training")
-        print(f"  Train: {len(train_data)}  Val: {len(val_data)}")
-        print(f"  Device: {self.device}")
+        print(f"  GatingMLP training" + (" [TA_TRAIN]" if self.ta_train else ""))
+        print(f"  Train JSON : {train_path}  ({len(train_data)} records)")
+        print(f"  Val JSON   : {val_path}  ({len(val_data)} records)")
+        print(f"  Epochs: {n_epochs}  Device: {self.device}")
         print(f"  Age bucket map: {age_bucket_map}")
         print(f"  Loaded adapters: {list(self.peft_model.peft_config.keys())}")
         print('='*60)
@@ -200,7 +209,7 @@ class GatingMLPAdapter:
         print(f"  Train distribution: {Counter(train_labels.tolist())}")
 
         # 2. Train gating MLP
-        print(f"\n[2/3] Training gating MLP ({GATE_EPOCHS} epochs)...")
+        print(f"\n[2/3] Training gating MLP ({n_epochs} epochs)...")
         n_classes = len(Config.lora_age_buckets())
         gate      = GatingMLP(Config.model_dim(), n_classes, GATE_HIDDEN, GATE_DROPOUT)
         gate      = gate.to(self.device)
@@ -210,7 +219,7 @@ class GatingMLPAdapter:
         best_val_loss  = float("inf")
         best_state     = None
 
-        for epoch in range(GATE_EPOCHS):
+        for epoch in range(n_epochs):
             gate.train()
             perm                  = torch.randperm(len(train_feats))
             epoch_loss, correct   = 0.0, 0
@@ -237,7 +246,7 @@ class GatingMLPAdapter:
                 val_loss   = criterion(val_logits, val_labels.to(self.device)).item()
                 val_acc    = (val_logits.argmax(-1) == val_labels.to(self.device)).float().mean().item()
 
-            print(f"  Epoch {epoch+1:2d}/{GATE_EPOCHS}  "
+            print(f"  Epoch {epoch+1:2d}/{n_epochs}  "
                   f"train_loss={train_loss:.4f}  train_acc={train_acc:.4f}  "
                   f"val_loss={val_loss:.4f}  val_acc={val_acc:.4f}")
 

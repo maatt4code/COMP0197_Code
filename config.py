@@ -190,6 +190,10 @@ class TrainingConfig:
     NUM_EPOCHS    = 3
     WARMUP_STEPS  = 50
 
+    # TA_TRAIN mode — tiny run to verify training code without killing a laptop
+    TA_TRAIN_SAMPLES = 100
+    TA_TRAIN_EPOCHS  = 5
+
     def __init__(self, adapter_name: str, train_json: str, val_json: str, age_group: str = None):
         self.adapter_name = adapter_name
         assert self.adapter_name in Config.adapter_names(), \
