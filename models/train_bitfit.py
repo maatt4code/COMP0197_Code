@@ -20,8 +20,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import torch
-import soundfile as sf
-import librosa
+import torchaudio
 import jiwer
 
 from sklearn.model_selection import train_test_split
@@ -177,12 +176,12 @@ save_json(split_info, OUTPUT_DIR / "split_info.json")
 # =========================================================
 def load_audio(audio_path_rel: str) -> np.ndarray:
     path = DATA_ROOT / audio_path_rel
-    audio, sr = sf.read(str(path))
-    if audio.ndim > 1:
-        audio = audio.mean(axis=1)
+    waveform, sr = torchaudio.load(str(path))   # (C, T) float32
+    if waveform.shape[0] > 1:
+        waveform = waveform.mean(dim=0, keepdim=True)
     if sr != SAMPLE_RATE:
-        audio = librosa.resample(audio.astype(np.float32), orig_sr=sr, target_sr=SAMPLE_RATE)
-    return audio.astype(np.float32)
+        waveform = torchaudio.functional.resample(waveform, orig_freq=sr, new_freq=SAMPLE_RATE)
+    return waveform.squeeze(0).numpy()
 
 # =========================================================
 # 7. Processor

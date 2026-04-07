@@ -306,8 +306,6 @@ class LoraAdapter:
         base.config.forced_decoder_ids            = forced_decoder_ids
         base.config.suppress_tokens               = []
         base.config.use_cache                     = False
-        base.generation_config.language           = "english"
-        base.generation_config.task               = "transcribe"
         base.generation_config.forced_decoder_ids = forced_decoder_ids
 
         lora_cfg = LoraConfig(
