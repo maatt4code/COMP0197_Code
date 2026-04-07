@@ -137,7 +137,10 @@ def _load_audio(path: Path) -> np.ndarray:
 
 def _load_json(path: Path) -> list:
     with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
+    if isinstance(data, dict):
+        return [record for records in data.values() for record in records]
+    return data
 
 
 # ── Adapter ───────────────────────────────────────────────────────────────────
@@ -276,6 +279,7 @@ class UniqueSubjectsAdapter:
             self._base_cfg._name_or_path,
             language="english",
             task="transcribe",
+            max_length=None,
         )
 
         lora_cfg = LoraConfig(

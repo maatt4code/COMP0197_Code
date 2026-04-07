@@ -295,6 +295,7 @@ class LoraAdapter:
             self._base_cfg._name_or_path,
             language="english",
             task="transcribe",
+            max_length=None,
         )
 
         lora_cfg = LoraConfig(
