@@ -27,6 +27,7 @@ PARENT_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.insert(0, PARENT_DIR)
 
 from config import Config, TrainingConfig
+from metrics import wer as compute_wer
 
 import numpy as np
 import torch
@@ -36,6 +37,7 @@ from torch.utils.data import Dataset
 from transformers import (
     WhisperProcessor,
     WhisperForConditionalGeneration,
+    GenerationConfig,
     Seq2SeqTrainer,
     Seq2SeqTrainingArguments,
 )
@@ -85,19 +87,7 @@ class DataCollatorSpeechSeq2SeqWithPadding:
 # ── WER metric ────────────────────────────────────────────────────────────────
 
 def _wer_score(refs: list, hyps: list) -> float:
-    import jiwer
-    transform = jiwer.Compose([
-        jiwer.ToLowerCase(),
-        jiwer.RemovePunctuation(),
-        jiwer.Strip(),
-        jiwer.RemoveMultipleSpaces(),
-        jiwer.ReduceToListOfListOfWords(),
-    ])
-    return jiwer.process_words(
-        refs, hyps,
-        reference_transform=transform,
-        hypothesis_transform=transform,
-    ).wer
+    return compute_wer(refs, hyps)
 
 
 # ── Custom Trainer ────────────────────────────────────────────────────────────
@@ -300,13 +290,12 @@ class LoraAdapter:
         base = WhisperForConditionalGeneration(self._base_cfg)
         base.load_state_dict(self._base_state)
 
-        forced_decoder_ids = self.processor.get_decoder_prompt_ids(
-            language="english", task="transcribe"
+        base.config.use_cache = False
+        base.generation_config = GenerationConfig.from_pretrained(
+            self._base_cfg._name_or_path,
+            language="english",
+            task="transcribe",
         )
-        base.config.forced_decoder_ids            = forced_decoder_ids
-        base.config.suppress_tokens               = []
-        base.config.use_cache                     = False
-        base.generation_config.forced_decoder_ids = forced_decoder_ids
 
         lora_cfg = LoraConfig(
             r              = TrainingConfig.LORA_R,
