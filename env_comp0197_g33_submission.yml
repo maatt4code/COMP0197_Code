@@ -31,7 +31,7 @@ dependencies:
   - pip
   - pip:
     # TODO remove - librosa>=0.10
-    # TODO remove - soundfile
+    - soundfile
     - peft
 
 # Ideal State:
