@@ -165,6 +165,16 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--best-dir",
+        type=str,
+        default=None,
+        help=(
+            "Subdirectory name under weights/ where best checkpoints are saved.\n"
+            "Default: 'best'  →  weights/best/<adapter_name>/\n"
+            "Example: --best-dir run_01  →  weights/run_01/<adapter_name>/"
+        ),
+    )
+    parser.add_argument(
         "--base-data-dir",
         type=Path,
         default=None,
@@ -263,6 +273,8 @@ def _resolve_mode(args: argparse.Namespace) -> str:
 def main():
     args = parse_args()
 
+    if args.best_dir is not None:
+        Config.set_best_dir(args.best_dir)
     if args.base_data_dir is not None:
         Config.set_base_data_dir(args.base_data_dir)
     if args.audio_dir is not None:

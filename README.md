@@ -121,6 +121,7 @@ python train.py --ta-train \
 
 | Flag | Default | Description |
 |------|---------|-------------|
+| `--best-dir` | `best` | Subdirectory under `weights/` for best checkpoints, e.g. `run_01` → `weights/run_01/` |
 | `--base-data-dir` | `/cs/student/projects3/COMP0158/grp_1/data` | Parent of `audio/` and `noise/` |
 | `--audio-dir` | `<base-data-dir>/audio/` | Root for audio files referenced in JSONs |
 | `--noise-dir` | `<base-data-dir>/noise/` | Noise files for augmentation |
@@ -140,4 +141,5 @@ Prerequisites are loaded automatically — you do not need to list them in `--ad
 
 ### Output
 
-Best checkpoints are saved to `weights/best/<adapter_name>/` after each training run.
+Best checkpoints are saved to `weights/<best-dir>/<adapter_name>/` after each training run
+(`best-dir` defaults to `best`).

@@ -9,7 +9,7 @@ class Config:
     __MAIN_DIR   = Path(__file__).resolve().parent
     __FINAL_DIR = "final"
     __MOCK_DIR = "mock"
-    __BEST_DIR = "best"
+    __BEST_DIR: str = "best"   # subdirectory under weights/; override via set_best_dir()
 
     # MODEL
     __MODEL_NAME = "openai/whisper-small"
@@ -37,6 +37,14 @@ class Config:
     __LORA_BUCKET_TO_ADAPTER = {b: n for b, n in zip(__LORA_AGE_BUCKETS, __LORA_ADAPTER_NAMES)}
 
     # ── class-level setters ──────────────────────────────────────────────────
+
+    @classmethod
+    def set_best_dir(cls, name: str) -> None:
+        """Override the subdirectory name under weights/ where best checkpoints are saved.
+
+        E.g. Config.set_best_dir("run_01") → weights/run_01/<adapter_name>/
+        """
+        cls.__BEST_DIR = name
 
     @classmethod
     def set_base_data_dir(cls, path) -> None:
