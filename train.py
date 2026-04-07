@@ -96,15 +96,15 @@ class AdapterTrainerFactory:
         """Load prerequisite adapters from weights/best/ into self.prereq_peft_model."""
         if not prereq_adapters:
             return
-        print(f"\n[prereqs] Loading {prereq_adapters} from best weights...")
+        print(f"\n[prereqs] Loading {prereq_adapters} from load weights...")
         first      = prereq_adapters[0]
-        best_dir   = self.config.adapter_best_weights_path(first)
+        load_dir   = self.config.adapter_load_weights_path(first)
         peft_model = PeftModel.from_pretrained(
-            self.base_model, str(best_dir), adapter_name=first
+            self.base_model, str(load_dir), adapter_name=first
         )
         for name in prereq_adapters[1:]:
-            best_dir = self.config.adapter_best_weights_path(name)
-            peft_model.load_adapter(str(best_dir), adapter_name=name)
+            load_dir = self.config.adapter_load_weights_path(name)
+            peft_model.load_adapter(str(load_dir), adapter_name=name)
             print(f"[prereqs]   loaded {name}")
         self.prereq_peft_model = peft_model.to(self.device).eval()
 
@@ -169,9 +169,20 @@ def parse_args() -> argparse.Namespace:
         type=str,
         default=None,
         help=(
-            "Subdirectory name under weights/ where best checkpoints are saved.\n"
+            "Subdirectory under weights/ where trained checkpoints are *written*.\n"
             "Default: 'best'  →  weights/best/<adapter_name>/\n"
             "Example: --best-dir run_01  →  weights/run_01/<adapter_name>/"
+        ),
+    )
+    parser.add_argument(
+        "--load-dir",
+        type=str,
+        default=None,
+        help=(
+            "Subdirectory under weights/ from which checkpoints are *loaded*\n"
+            "(mock mode and prerequisites). Defaults to the same value as --best-dir.\n"
+            "Example: --best-dir run_01 --load-dir run_00\n"
+            "  → loads prereqs from weights/run_00/, saves new run to weights/run_01/"
         ),
     )
     parser.add_argument(
@@ -275,6 +286,8 @@ def main():
 
     if args.best_dir is not None:
         Config.set_best_dir(args.best_dir)
+    if args.load_dir is not None:
+        Config.set_load_dir(args.load_dir)
     if args.base_data_dir is not None:
         Config.set_base_data_dir(args.base_data_dir)
     if args.audio_dir is not None:

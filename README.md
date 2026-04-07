@@ -19,6 +19,7 @@ micromamba activate comp0197-pt-g33-submission
 ```
 config.py                          — Config and TrainingConfig
 train.py                           — Main training entry point
+metrics.py                         — WER implementation (no third-party deps)
 models/
   train_by_age_groups_lora.py      — LoRA adapter per age bucket (3-4, 5-7, 8-11)
   train_by_age_groups_gatingmlp.py — Gating MLP router (requires age adapters)
@@ -27,7 +28,7 @@ data/
   build_age_bucket_splits.py       — Build train/val/test JSON splits from JSONL
   *.json                           — Pre-built split manifests
 weights/
-  best/                            — Best checkpoints written by training
+  best/                            — Default checkpoints directory (read and written)
   final/                           — Release checkpoints used for inference
 ```
 
@@ -110,6 +111,10 @@ python train.py --really-train --adapters gate_mlp
 # (age_5_7 and age_8_11 loaded from weights/best/ as prerequisites)
 python train.py --really-train --adapters age_3_4 --adapters gate_mlp
 
+# Save to a new run directory, load prerequisites from a previous run
+python train.py --really-train --adapters gate_mlp \
+    --best-dir run_02 --load-dir run_01
+
 # Override dataset paths
 python train.py --ta-train \
     --base-data-dir /path/to/data \
@@ -121,7 +126,8 @@ python train.py --ta-train \
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `--best-dir` | `best` | Subdirectory under `weights/` for best checkpoints, e.g. `run_01` → `weights/run_01/` |
+| `--best-dir` | `best` | Subdirectory under `weights/` where trained checkpoints are *written*, e.g. `run_01` → `weights/run_01/` |
+| `--load-dir` | *(same as `--best-dir`)* | Subdirectory under `weights/` from which checkpoints are *loaded* (mock mode and prerequisites) |
 | `--base-data-dir` | `/cs/student/projects3/COMP0158/grp_1/data` | Parent of `audio/` and `noise/` |
 | `--audio-dir` | `<base-data-dir>/audio/` | Root for audio files referenced in JSONs |
 | `--noise-dir` | `<base-data-dir>/noise/` | Noise files for augmentation |
@@ -141,5 +147,14 @@ Prerequisites are loaded automatically — you do not need to list them in `--ad
 
 ### Output
 
-Best checkpoints are saved to `weights/<best-dir>/<adapter_name>/` after each training run
-(`best-dir` defaults to `best`).
+Trained checkpoints are saved to `weights/<best-dir>/<adapter_name>/` (`--best-dir` defaults to `best`).
+
+Prerequisites and mock-mode verification always load from `weights/<load-dir>/<adapter_name>/`
+(`--load-dir` defaults to the same value as `--best-dir`).
+
+To build on a previous run without overwriting it:
+```bash
+python train.py --really-train --adapters gate_mlp \
+    --best-dir run_02 \   # write here
+    --load-dir run_01     # read age adapters from here
+```

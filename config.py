@@ -9,7 +9,8 @@ class Config:
     __MAIN_DIR   = Path(__file__).resolve().parent
     __FINAL_DIR = "final"
     __MOCK_DIR = "mock"
-    __BEST_DIR: str = "best"   # subdirectory under weights/; override via set_best_dir()
+    __BEST_DIR: str = "best"   # subdirectory under weights/ to *write* checkpoints; override via set_best_dir()
+    __LOAD_DIR: str = "best"   # subdirectory under weights/ to *read* checkpoints; override via set_load_dir()
 
     # MODEL
     __MODEL_NAME = "openai/whisper-small"
@@ -40,11 +41,20 @@ class Config:
 
     @classmethod
     def set_best_dir(cls, name: str) -> None:
-        """Override the subdirectory name under weights/ where best checkpoints are saved.
+        """Override the subdirectory under weights/ where trained checkpoints are *written*.
 
         E.g. Config.set_best_dir("run_01") → weights/run_01/<adapter_name>/
         """
         cls.__BEST_DIR = name
+
+    @classmethod
+    def set_load_dir(cls, name: str) -> None:
+        """Override the subdirectory under weights/ from which checkpoints are *loaded*.
+
+        Defaults to the same value as __BEST_DIR ("best").
+        E.g. Config.set_load_dir("run_00") → load from weights/run_00/<adapter_name>/
+        """
+        cls.__LOAD_DIR = name
 
     @classmethod
     def set_base_data_dir(cls, path) -> None:
@@ -142,6 +152,14 @@ class Config:
         self.__BEST_GATING_MLP_DIR = Config.__ADAPTER_WEIGHTS_DIR / self.__BEST_DIR / "gate_mlp"
         self.__BEST_UNIQUE_SUBJECTS_DIR = Config.__ADAPTER_WEIGHTS_DIR / self.__BEST_DIR / "unique_subjects"
 
+        # Load weights directories (read by mock mode and prerequisite loading)
+        self.__LOAD_LORA_DIRS = {
+            bucket: Config.__ADAPTER_WEIGHTS_DIR / self.__LOAD_DIR / name
+            for bucket, name in Config.__LORA_BUCKET_TO_ADAPTER.items()
+        }
+        self.__LOAD_GATING_MLP_DIR = Config.__ADAPTER_WEIGHTS_DIR / self.__LOAD_DIR / "gate_mlp"
+        self.__LOAD_UNIQUE_SUBJECTS_DIR = Config.__ADAPTER_WEIGHTS_DIR / self.__LOAD_DIR / "unique_subjects"
+
     def device(self):
         if self.__INFERENCE_ONLY:
             return "cpu"
@@ -165,7 +183,7 @@ class Config:
         return self.__UNIQUE_SUBJECTS_DIR
 
     def adapter_best_weights_path(self, adapter: str) -> Path:
-        """Return the *best* weights directory. Accepts adapter name or age bucket string."""
+        """Return the *save* weights directory. Accepts adapter name or age bucket string."""
         if adapter in Config.__LORA_BUCKET_TO_ADAPTER:
             return self.__BEST_LORA_DIRS[adapter]
         if adapter in Config.__LORA_ADAPTER_NAMES:
@@ -175,6 +193,19 @@ class Config:
             return self.__BEST_GATING_MLP_DIR
         if adapter == "unique_subjects":
             return self.__BEST_UNIQUE_SUBJECTS_DIR
+        raise ValueError(f"Unknown adapter {adapter!r}")
+
+    def adapter_load_weights_path(self, adapter: str) -> Path:
+        """Return the *load* weights directory. Accepts adapter name or age bucket string."""
+        if adapter in Config.__LORA_BUCKET_TO_ADAPTER:
+            return self.__LOAD_LORA_DIRS[adapter]
+        if adapter in Config.__LORA_ADAPTER_NAMES:
+            bucket = next(b for b, n in Config.__LORA_BUCKET_TO_ADAPTER.items() if n == adapter)
+            return self.__LOAD_LORA_DIRS[bucket]
+        if adapter == "gate_mlp":
+            return self.__LOAD_GATING_MLP_DIR
+        if adapter == "unique_subjects":
+            return self.__LOAD_UNIQUE_SUBJECTS_DIR
         raise ValueError(f"Unknown adapter {adapter!r}")
 
 

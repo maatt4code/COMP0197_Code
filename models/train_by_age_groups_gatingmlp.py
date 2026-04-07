@@ -277,8 +277,8 @@ class GatingMLPAdapter:
 
     def _mock_load(self) -> None:
         """Mock mode: verify the saved gate checkpoint is readable."""
-        best_dir    = self.config.adapter_best_weights_path("gate_mlp")
-        output_path = best_dir / "gate_mlp.pt"
+        load_dir    = self.config.adapter_load_weights_path("gate_mlp")
+        output_path = load_dir / "gate_mlp.pt"
         print(f"\n[mock] GatingMLP — loading checkpoint from {output_path}")
         assert output_path.exists(), (
             f"[mock] gate_mlp.pt not found at {output_path}. "

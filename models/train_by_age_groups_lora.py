@@ -268,15 +268,15 @@ class LoraAdapter:
     # ── private helpers ───────────────────────────────────────────────────────
 
     def _mock_load(self) -> None:
-        """Mock mode: load the adapter config from weights/best/ without training."""
-        best_dir = self.config.adapter_best_weights_path(self.age_bucket)
-        config_path = best_dir / "adapter_config.json"
-        print(f"\n[mock] [{self.age_bucket}] loading adapter config from {best_dir}")
+        """Mock mode: load the adapter config from the load weights directory."""
+        load_dir = self.config.adapter_load_weights_path(self.age_bucket)
+        config_path = load_dir / "adapter_config.json"
+        print(f"\n[mock] [{self.age_bucket}] loading adapter config from {load_dir}")
         assert config_path.exists(), (
             f"[mock] adapter_config.json not found at {config_path}. "
             "Run without --mock first to produce a checkpoint."
         )
-        cfg = PeftConfig.from_pretrained(str(best_dir))
+        cfg = PeftConfig.from_pretrained(str(load_dir))
         print(f"[mock] [{self.age_bucket}] OK — base_model={cfg.base_model_name_or_path}, "
               f"r={getattr(cfg, 'r', '?')}, lora_alpha={getattr(cfg, 'lora_alpha', '?')}")
 
@@ -295,8 +295,8 @@ class LoraAdapter:
             self._base_cfg._name_or_path,
             language="english",
             task="transcribe",
-            max_length=None,
         )
+        base.generation_config.max_length = None
 
         lora_cfg = LoraConfig(
             r              = TrainingConfig.LORA_R,
