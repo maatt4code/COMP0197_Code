@@ -134,16 +134,31 @@ python train.py --ta-train \
 
 ### Adapter prerequisites
 
-Some adapters require others to be present in `weights/best/` before training:
+Some adapters require others to be loaded before training:
 
-| Adapter | Prerequisites |
-|---------|---------------|
+| Adapter | Prerequisites loaded from |
+|---------|--------------------------|
 | `age_3_4`, `age_5_7`, `age_8_11` | none |
 | `unique_subjects` | none |
-| `gate_mlp` | `age_3_4`, `age_5_7`, `age_8_11` |
-| ensemble | all adapters |
+| `gate_mlp` | `age_3_4`, `age_5_7`, `age_8_11` from `weights/<load-dir>/` |
+| ensemble (`--train-ensemble`) | all adapters from `weights/final/` |
 
 Prerequisites are loaded automatically — you do not need to list them in `--adapters`.
+
+### Ensemble mode (`--train-ensemble`)
+
+`--train-ensemble` loads all adapter weights from `weights/final/` (not `weights/<load-dir>/`)
+and passes them to the ensemble trainer. This is intentional: the ensemble is always built on
+top of the fixed release weights, not an in-progress training run.
+
+Adapters loaded from `weights/final/`:
+- `age_3_4`, `age_5_7`, `age_8_11` — LoRA adapters (loaded into a single `PeftModel`)
+- `unique_subjects` — LoRA adapter (loaded into the same `PeftModel`)
+- `gate_mlp/gate_mlp.pt` — gating MLP checkpoint
+
+These are returned to `main()` for the ensemble trainer (not yet implemented — stub in place).
+
+`--train-ensemble` and `--really-train` cannot be combined.
 
 ### Output
 
