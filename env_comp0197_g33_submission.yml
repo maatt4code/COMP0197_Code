@@ -4,8 +4,8 @@
 #   bin/micromamba create -p "$(pwd)/bin/env/comp0197_g33" -f env_comp0197_g33.yml -y
 #   bin/micromamba install -p "$(pwd)/bin/env/comp0197_g33" -f env_comp0197_g33.yml -y
 #
-# Whisper LoRA training needs librosa + soundfile + peft (pip section below). If micromamba
-# skips pip deps, run:  bin/env/comp0197_g33/bin/python -m pip install librosa soundfile peft
+# Whisper LoRA training needs soundfile + peft (pip section below). If micromamba
+# skips pip deps, run:  bin/env/comp0197_g33/bin/python -m pip install soundfile peft
 #
 name: comp0197-pt-g33-submission
 channels:
@@ -30,11 +30,9 @@ dependencies:
   # BIG NO NO - ffmpeg
   - pip
   - pip:
-    # TODO remove - librosa>=0.10
-    # TODO remove - soundfile
+    - soundfile
     - peft
 
 # Ideal State:
 #   - Peft, Transformers (assume Whisper is available in Transformers) installed via micromamba pip deps section above.
-#   - Either soundfile or torchauidio without ffmpeg should work for loading audio
-#   - but copilot says librosa is needed for resampling to 16kHz. So we install librosa and soundfile via pip as well.
+#   - soundfile loads audio; torchaudio.functional.resample handles resampling to 16kHz (no librosa or ffmpeg needed).
