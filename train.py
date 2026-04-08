@@ -1,5 +1,6 @@
 import argparse
 import sys
+import torch
 from config import Config, TrainingConfig
 from models import train_by_age_groups_lora
 from models import train_by_age_groups_gatingmlp
@@ -107,6 +108,40 @@ class AdapterTrainerFactory:
             peft_model.load_adapter(str(load_dir), adapter_name=name)
             print(f"[prereqs]   loaded {name}")
         self.prereq_peft_model = peft_model.to(self.device).eval()
+
+    def load_final_ensemble(self) -> tuple:
+        """Load all adapter weights from weights/final/ for ensemble training.
+
+        Returns
+        -------
+        peft_model : PeftModel
+            Base Whisper with all LoRA adapters (age_3_4, age_5_7, age_8_11,
+            unique_subjects) loaded from weights/final/.
+        gate_ckpt : dict
+            Raw checkpoint dict loaded from weights/final/gate_mlp/gate_mlp.pt,
+            with keys 'state_dict' and 'config'.
+        processor : WhisperProcessor
+        """
+        lora_adapters = [a for a in ALL_ADAPTERS if a != "gate_mlp"]
+
+        print("\n[ensemble] Loading final adapter weights...")
+        first      = lora_adapters[0]
+        final_dir  = self.config.adapter_weights_path(first)
+        peft_model = PeftModel.from_pretrained(
+            self.base_model, str(final_dir), adapter_name=first
+        )
+        print(f"[ensemble]   loaded {first} from {final_dir}")
+        for name in lora_adapters[1:]:
+            final_dir = self.config.adapter_weights_path(name)
+            peft_model.load_adapter(str(final_dir), adapter_name=name)
+            print(f"[ensemble]   loaded {name} from {final_dir}")
+
+        gate_path = self.config.adapter_weights_path("gate_mlp") / "gate_mlp.pt"
+        print(f"[ensemble]   loading gate_mlp from {gate_path}")
+        gate_ckpt = torch.load(str(gate_path), map_location=self.device)
+
+        peft_model = peft_model.to(self.device).eval()
+        return peft_model, gate_ckpt, self.base_model_processor
 
     def get_adapter_trainer(self, cfg: TrainingConfig):
         adapter_name = cfg.adapter_name
@@ -329,6 +364,9 @@ def main():
         adapter.train(train_json=cfg.train_json, val_json=cfg.val_json)
 
     if args.train_ensemble:
+        # TODO: implement ensemble trainer and pass return values to it
+        # returns: (peft_model, gate_ckpt, processor) — see AdapterTrainerFactory.load_final_ensemble()
+        factory.load_final_ensemble()
         print("\n[ensemble] Ensemble training is not yet implemented.")
 
 
