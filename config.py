@@ -112,6 +112,15 @@ class Config:
     def base_model():
         processor = WhisperProcessor.from_pretrained(Config.__MODEL_NAME, language="English", task="transcribe")
         model = WhisperForConditionalGeneration.from_pretrained(Config.__MODEL_NAME)
+        model.config.suppress_tokens = None
+        model.config.begin_suppress_tokens = None
+        model.config.forced_decoder_ids = None
+        model.generation_config.suppress_tokens = None
+        model.generation_config.begin_suppress_tokens = None
+        model.generation_config.forced_decoder_ids = None
+        model.generation_config.max_length = None
+        model.generation_config.language = "english"
+        model.generation_config.task = "transcribe"
         return processor, model
 
     @staticmethod
