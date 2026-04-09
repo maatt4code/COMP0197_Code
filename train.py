@@ -24,7 +24,7 @@ ADAPTER_DEPS: dict[str, list[str]] = {
     "age_3_4":         [],
     "age_5_7":         [],
     "age_8_11":        [],
-    "gate_mlp":        ["age_3_4", "age_5_7", "age_8_11"],
+    "gate_mlp":        [],
     "unique_subjects": [],
 }
 ENSEMBLE_DEPS = ALL_ADAPTERS  # ensemble needs everything
@@ -46,8 +46,8 @@ ADAPTER_TO_TRAINING_CONFIG: dict[str, TrainingConfig] = {
     ),
     "gate_mlp": TrainingConfig(
         adapter_name="gate_mlp",
-        train_json="train_by_age_bucket_all.json",
-        val_json="val_by_age_bucket_all.json",
+        train_json="train_by_child_id.json",
+        val_json="val_by_child_id.json",
     ),
 }
 
@@ -118,8 +118,7 @@ class AdapterTrainerFactory:
             Base Whisper with all LoRA adapters (age_3_4, age_5_7, age_8_11,
             unique_subjects) loaded from weights/final/.
         gate_ckpt : dict
-            Raw checkpoint dict loaded from weights/final/gate_mlp/gate_mlp.pt,
-            with keys 'state_dict' and 'config'.
+            Raw gate checkpoint dict loaded from weights/final/gate_mlp/gate_mlp.pt.
         processor : WhisperProcessor
         """
         lora_adapters = [a for a in ALL_ADAPTERS if a != "gate_mlp"]
@@ -151,11 +150,8 @@ class AdapterTrainerFactory:
                 mock=self._mock, ta_train=self._ta_train,
             )
         elif adapter_name == "gate_mlp":
-            assert self.prereq_peft_model is not None, (
-                "gate_mlp requires age adapter prerequisites — call load_prereqs() first."
-            )
             return train_by_age_groups_gatingmlp.GatingMLPAdapter(
-                self.config, self.prereq_peft_model, self.base_model_processor,
+                self.config, self.base_model, self.base_model_processor,
                 mock=self._mock, ta_train=self._ta_train,
             )
         elif adapter_name == "unique_subjects":
@@ -334,9 +330,7 @@ def main():
 
     config = Config(is_inference=False)
 
-    adapters_to_train: list[str] = args.adapters if args.adapters is not None else [
-        a for a in ALL_ADAPTERS if a != "gate_mlp"  # gate_mlp excluded until implemented
-    ]
+    adapters_to_train: list[str] = args.adapters if args.adapters is not None else ALL_ADAPTERS.copy()
     prereqs          = _prereqs_for(adapters_to_train)
     ensemble_prereqs = ENSEMBLE_DEPS if args.train_ensemble else []
 
