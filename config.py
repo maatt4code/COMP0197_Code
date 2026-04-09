@@ -112,6 +112,9 @@ class Config:
     def base_model():
         processor = WhisperProcessor.from_pretrained(Config.__MODEL_NAME, language="English", task="transcribe")
         model = WhisperForConditionalGeneration.from_pretrained(Config.__MODEL_NAME)
+        
+        # TODO: double check this
+        # currently stops model from barfing and I'm sleep deprived
         model.config.suppress_tokens = None
         model.config.begin_suppress_tokens = None
         model.config.forced_decoder_ids = None
