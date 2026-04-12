@@ -1497,7 +1497,10 @@
         "wer": 0.2569499109251357,
         "runtime": 711.1192,
         "samples_per_second": 10.332,
-        "steps_per_second": 0.647
+        "steps_per_second": 0.647,
+        "loss": 3.5516552326710706,
+        "loss_source": "posthoc_checkpoint_eval",
+        "checkpoint_dir": "/cs/student/projects3/COMP0158/grp_1/code/Tim/COMP0197_Code/weights/best/age_8_11/checkpoint-3705"
       }
     },
     {
@@ -2988,7 +2991,10 @@
         "wer": 0.2369142809794092,
         "runtime": 698.5066,
         "samples_per_second": 10.518,
-        "steps_per_second": 0.659
+        "steps_per_second": 0.659,
+        "loss": 3.059417047581089,
+        "loss_source": "posthoc_checkpoint_eval",
+        "checkpoint_dir": "/cs/student/projects3/COMP0158/grp_1/code/Tim/COMP0197_Code/weights/best/age_8_11/checkpoint-7410"
       }
     },
     {
@@ -4479,7 +4485,10 @@
         "wer": 0.20970294568504785,
         "runtime": 687.7801,
         "samples_per_second": 10.682,
-        "steps_per_second": 0.669
+        "steps_per_second": 0.669,
+        "loss": 3.7708199560617905,
+        "loss_source": "posthoc_checkpoint_eval",
+        "checkpoint_dir": "/cs/student/projects3/COMP0158/grp_1/code/Tim/COMP0197_Code/weights/best/age_8_11/checkpoint-11115"
       }
     },
     {
@@ -4511,6 +4520,10 @@
     "train_records": 59279,
     "val_records": 7347,
     "epochs": 3.0,
-    "best_eval_wer": 0.20970294568504785
+    "best_eval_wer": 0.20970294568504785,
+    "best_val_loss": 3.059417047581089,
+    "best_val_loss_epoch": 2.0,
+    "best_val_loss_checkpoint_dir": "/cs/student/projects3/COMP0158/grp_1/code/Tim/COMP0197_Code/weights/best/age_8_11/checkpoint-7410",
+    "best_val_loss_source": "posthoc_checkpoint_eval"
   }
 }

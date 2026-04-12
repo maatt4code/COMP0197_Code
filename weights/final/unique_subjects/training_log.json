@@ -1926,7 +1926,10 @@
         "wer": 0.21016307288043898,
         "runtime": 724.2329,
         "samples_per_second": 13.269,
-        "steps_per_second": 0.83
+        "steps_per_second": 0.83,
+        "loss": 4.431069690156553,
+        "loss_source": "posthoc_checkpoint_eval",
+        "checkpoint_dir": "/cs/student/projects3/COMP0158/grp_1/code/Tim/COMP0197_Code/weights/best/unique_subjects/checkpoint-4782"
       }
     },
     {
@@ -3847,7 +3850,10 @@
         "wer": 0.2435814205116315,
         "runtime": 806.408,
         "samples_per_second": 11.917,
-        "steps_per_second": 0.745
+        "steps_per_second": 0.745,
+        "loss": 3.9678285481654396,
+        "loss_source": "posthoc_checkpoint_eval",
+        "checkpoint_dir": "/cs/student/projects3/COMP0158/grp_1/code/Tim/COMP0197_Code/weights/best/unique_subjects/checkpoint-9564"
       }
     },
     {
@@ -5768,7 +5774,10 @@
         "wer": 0.21262848751835536,
         "runtime": 760.1709,
         "samples_per_second": 12.642,
-        "steps_per_second": 0.791
+        "steps_per_second": 0.791,
+        "loss": 4.1817316929582,
+        "loss_source": "posthoc_checkpoint_eval",
+        "checkpoint_dir": "/cs/student/projects3/COMP0158/grp_1/code/Tim/COMP0197_Code/weights/best/unique_subjects/checkpoint-14346"
       }
     },
     {
@@ -5800,6 +5809,10 @@
     "train_records": 76511,
     "val_records": 9610,
     "epochs": 3.0,
-    "best_eval_wer": 0.21016307288043898
+    "best_eval_wer": 0.21016307288043898,
+    "best_val_loss": 3.9678285481654396,
+    "best_val_loss_epoch": 2.0,
+    "best_val_loss_checkpoint_dir": "/cs/student/projects3/COMP0158/grp_1/code/Tim/COMP0197_Code/weights/best/unique_subjects/checkpoint-9564",
+    "best_val_loss_source": "posthoc_checkpoint_eval"
   }
 }
