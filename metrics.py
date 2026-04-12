@@ -1,5 +1,8 @@
 """
 metrics.py — Evaluation metrics (no third-party dependencies).
+
+GenAI disclosure: Assistive tools (e.g. Cursor/LLM-based coding assistants) were used for
+refactoring, documentation, and boilerplate. All changes were reviewed and tested locally.
 """
 
 import re

@@ -11,8 +11,8 @@ Usage (via AdapterTrainerFactory in train.py):
 The best checkpoint (lowest eval WER) is written to
     weights/best/<adapter_name>/
 
-GenAI Disclosure: GitHub Copilot and Claude Code were used in an assistive role
-for code scaffolding and debugging. All outputs were manually reviewed.
+GenAI disclosure: Assistive tools (e.g. GitHub Copilot, Claude Code, Cursor) were used in an
+assistive role for scaffolding and debugging. All outputs were manually reviewed and tested.
 """
 
 from __future__ import annotations
