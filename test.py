@@ -15,7 +15,7 @@ import torch
 import torch.nn.functional as F
 from peft import PeftModel
 
-from config import Config
+from config import Config, DEFAULT_BASE_DATA_DIR
 from metrics import wer as compute_wer
 from models.age_classifier import (
     expected_calibration_error,
@@ -53,7 +53,7 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help=(
             "Base dataset directory (parent of audio/ and noise/).\n"
-            f"Default: {Path('/cs/student/projects3/COMP0158/grp_1/data')}"
+            f"Default: {DEFAULT_BASE_DATA_DIR}"
         ),
     )
     parser.add_argument(

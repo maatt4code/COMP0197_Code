@@ -1,7 +1,15 @@
+"""
+GenAI disclosure: Assistive tools (e.g. Cursor/LLM-based coding assistants) were used for
+refactoring, documentation, and boilerplate. All changes were reviewed and tested locally.
+"""
 
 from pathlib import Path
 import torch
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
+
+# Parent of audio/ and noise/ when not overridden (CLI --base-data-dir). Manifests stay in data/.
+DEFAULT_BASE_DATA_DIR = Path("/cs/student/projects3/COMP0158/grp_1/data")
+
 
 class Config:
     # ADMIN
@@ -22,12 +30,12 @@ class Config:
     # DATA
     # __DATA_DIR: where JSON manifest files live (local to this project)
     __DATA_DIR = __MAIN_DIR / "data"
-    # External dataset layout:
+    # External audio corpus (not stored in git). JSON manifests in data/ only hold relative paths.
     #   __BASE_DATA_DIR/
     #     audio/   ← audio_path values in JSON manifests are relative to this
     #     noise/   ← background-noise files for augmentation
-    # Each can be overridden independently via Config.set_*() class methods.
-    __BASE_DATA_DIR: Path = Path("/cs/student/projects3/COMP0158/grp_1/data")
+    # Override with --base-data-dir / --audio-dir / --noise-dir on other machines.
+    __BASE_DATA_DIR: Path = DEFAULT_BASE_DATA_DIR
     __AUDIO_DIR: Path | None = None   # None → derived from __BASE_DATA_DIR
     __NOISE_DIR: Path | None = None   # None → derived from __BASE_DATA_DIR
 

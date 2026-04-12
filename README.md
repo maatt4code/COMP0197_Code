@@ -12,40 +12,57 @@ micromamba env create -f env_comp0197_g33_submission.yml
 micromamba activate comp0197-pt-g33-submission
 ```
 
+See [instruction.pdf](instruction.pdf) for reproduction steps required by the coursework brief.
+
+**Extra pip packages beyond `comp0197-pt` (within the “max 3” rule):** `peft`, `soundfile`.
+
 ---
 
 ## Repository layout
 
 ```
 config.py                          — Config and TrainingConfig
+data_layout.py                     — Shared data path validation (--prepare-data)
 train.py                           — Main training entry point
+test.py                            — Evaluation, metrics, CSV/JSON, and PNG figures
 metrics.py                         — WER implementation (no third-party deps)
+build_instruction_pdf.py           — Regenerates instruction.pdf (matplotlib)
 models/
   train_by_age_groups_lora.py      — LoRA adapter per age bucket (3-4, 5-7, 8-11)
-  train_by_age_groups_gatingmlp.py — Gating MLP router (requires age adapters)
+  train_by_age_groups_gatingmlp.py — Gating MLP router
   train_by_unique_subjects.py      — LoRA adapter across all child IDs
 data/
   build_age_bucket_splits.py       — Build train/val/test JSON splits from JSONL
+  build_ta_test_subset.py          — Regenerate test_ta_200.json (seed 42)
   *.json                           — Pre-built split manifests
+  test_ta_200.json                 — 200-utterance TA subset (stratified by age)
 weights/
   best/                            — Default checkpoints directory (read and written)
-  final/                           — Release checkpoints used for inference
+  README.txt                       — What to include in the Moodle zip
 ```
 
 ---
 
 ## Data paths
 
-Audio files and noise files live on the cluster under a shared base directory.
-JSON manifests in `data/` store paths relative to `<base-data-dir>/audio/`.
+JSON manifests in `data/` store paths relative to the **audio root** directory.
 
 | Path | Default |
 |------|---------|
-| Base data dir | `/cs/student/projects3/COMP0158/grp_1/data` |
+| Manifests (JSON) | `data/*.json` in the repo |
+| Base data dir (audio + noise) | `/cs/student/projects3/COMP0158/grp_1/data` (override with `--base-data-dir`) |
 | Audio files | `<base-data-dir>/audio/` |
 | Noise files | `<base-data-dir>/noise/` |
 
-Override any of these at runtime — see CLI flags below.
+On machines without that path, pass `--base-data-dir` (and optionally `--audio-dir` / `--noise-dir`).
+
+Validate layout (manifests + `audio/`; no noise check):
+
+```bash
+python train.py --prepare-data
+```
+
+Training modes (`--ta-train`, `--really-train`) also require `noise/` to exist unless you override paths.
 
 ---
 
@@ -55,20 +72,10 @@ Run once from the project root to (re)generate the JSON manifests in `data/`:
 
 ```bash
 python data/build_age_bucket_splits.py \
-    --transcripts /cs/student/projects3/COMP0158/grp_1/data/train_word_transcripts.jsonl \
+    --transcripts /path/to/train_word_transcripts.jsonl \
     --audio-roots audio_part_0 audio_part_1 audio_part_2 \
     --out-dir data/
 ```
-
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--transcripts` | `train_word_transcripts.jsonl` | Path to source JSONL |
-| `--audio-roots` | `audio_part_0 audio_part_1 audio_part_2` | Audio directories to index |
-| `--out-dir` | `data/processed/splits_age` | Output directory |
-| `--train-ratio` | `0.8` | Train fraction |
-| `--val-ratio` | `0.1` | Validation fraction |
-| `--test-ratio` | `0.1` | Test fraction |
-| `--seed` | `42` | Random seed |
 
 ---
 
@@ -84,92 +91,106 @@ Exactly one mode must be active (default: `--mock`):
 | `--ta-train` | Train on 100 samples for 5 epochs — fast verification without a GPU |
 | `--really-train` | Full training run; prompts for confirmation before starting |
 
-`--really-train` and `--train-ensemble` cannot be used together.
-
 ### Examples
 
 ```bash
+# Validate JSON manifests + audio (+ noise if training)
+python train.py --prepare-data
+
 # Verify all adapters are loadable (default mock mode)
 python train.py
 
 # TA verification — runs quickly, no GPU required
-python train.py --ta-train
+python train.py --ta-train --base-data-dir /path/to/data
 
-# Full training — all age adapters + unique_subjects
-python train.py --really-train
+# Full training — all adapters
+python train.py --really-train --base-data-dir /path/to/data
 
 # Full training — specific adapter only
-python train.py --really-train --adapters age_3_4
+python train.py --really-train --adapters age_3_4 --base-data-dir /path/to/data
 
-# Full training — multiple adapters
-python train.py --really-train --adapters age_3_4 --adapters age_5_7
-
-# Train gating MLP (age adapters loaded automatically as prerequisites)
-python train.py --really-train --adapters gate_mlp
-
-# Train age_3_4 AND gate_mlp together
-# (age_5_7 and age_8_11 loaded from weights/best/ as prerequisites)
-python train.py --really-train --adapters age_3_4 --adapters gate_mlp
+# Train gating MLP
+python train.py --really-train --adapters gate_mlp --base-data-dir /path/to/data
 
 # Save to a new run directory, load prerequisites from a previous run
 python train.py --really-train --adapters gate_mlp \
-    --best-dir run_02 --load-dir run_01
-
-# Override dataset paths
-python train.py --ta-train \
-    --base-data-dir /path/to/data \
-    --audio-dir /path/to/data/audio \
-    --noise-dir /path/to/data/noise
+    --best-dir run_02 --load-dir run_01 --base-data-dir /path/to/data
 ```
 
 ### Path override flags
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `--best-dir` | `best` | Subdirectory under `weights/` where trained checkpoints are *written*, e.g. `run_01` → `weights/run_01/` |
-| `--load-dir` | *(same as `--best-dir`)* | Subdirectory under `weights/` from which checkpoints are *loaded* (mock mode and prerequisites) |
-| `--base-data-dir` | `/cs/student/projects3/COMP0158/grp_1/data` | Parent of `audio/` and `noise/` |
+| `--prepare-data` | — | Validate data layout and exit (exit code 0/1) |
+| `--best-dir` | `best` | Subdirectory under `weights/` for new checkpoints |
+| `--load-dir` | *(same as `--best-dir`)* | Subdirectory under `weights/` for loading prereqs / mock |
+| `--base-data-dir` | UCL lab path in `config.DEFAULT_BASE_DATA_DIR` | Parent of `audio/` and `noise/` |
 | `--audio-dir` | `<base-data-dir>/audio/` | Root for audio files referenced in JSONs |
 | `--noise-dir` | `<base-data-dir>/noise/` | Noise files for augmentation |
+| `--train-ensemble` | — | After normal adapter training, load `weights/final/` for the ensemble hook (incompatible with `--really-train`) |
 
 ### Adapter prerequisites
-
-Some adapters require others to be loaded before training:
 
 | Adapter | Prerequisites loaded from |
 |---------|--------------------------|
 | `age_3_4`, `age_5_7`, `age_8_11` | none |
 | `unique_subjects` | none |
-| `gate_mlp` | `age_3_4`, `age_5_7`, `age_8_11` from `weights/<load-dir>/` |
-| ensemble (`--train-ensemble`) | all adapters from `weights/final/` |
-
-Prerequisites are loaded automatically — you do not need to list them in `--adapters`.
-
-### Ensemble mode (`--train-ensemble`)
-
-`--train-ensemble` loads all adapter weights from `weights/final/` (not `weights/<load-dir>/`)
-and passes them to the ensemble trainer. This is intentional: the ensemble is always built on
-top of the fixed release weights, not an in-progress training run.
-
-Adapters loaded from `weights/final/`:
-- `age_3_4`, `age_5_7`, `age_8_11` — LoRA adapters (loaded into a single `PeftModel`)
-- `unique_subjects` — LoRA adapter (loaded into the same `PeftModel`)
-- `gate_mlp/gate_mlp.pt` — gating MLP checkpoint
-
-These are returned to `main()` for the ensemble trainer (not yet implemented — stub in place).
-
-`--train-ensemble` and `--really-train` cannot be combined.
+| `gate_mlp` | none at the PEFT level (frozen encoder + classifier head; see `train_by_age_groups_gatingmlp.py`) |
 
 ### Output
 
-Trained checkpoints are saved to `weights/<best-dir>/<adapter_name>/` (`--best-dir` defaults to `best`).
+Trained checkpoints are saved to `weights/<best-dir>/<adapter_name>/`.
 
-Prerequisites and mock-mode verification always load from `weights/<load-dir>/<adapter_name>/`
-(`--load-dir` defaults to the same value as `--best-dir`).
+### Ensemble mode (`--train-ensemble`)
 
-To build on a previous run without overwriting it:
+Use **mock** (default) or **TA** mode with `--train-ensemble` — not `--really-train`.
+
+Loads all adapter checkpoints from **`weights/final/`** (age LoRAs, `unique_subjects`, `gate_mlp/gate_mlp.pt`) via `load_final_ensemble()`. The CLI still prints a placeholder until the ensemble trainer is wired up; your group can extend that path without changing the flag.
+
+`--really-train` and `--train-ensemble` cannot be combined.
+
+---
+
+## Evaluation (`test.py`)
+
+Writes a timestamped folder under `test_results/` containing `summary.csv`,
+`classifier_metrics.csv`, `predictions.jsonl`, `metrics.json`, and figures
+`wer_by_bucket.png`, `gate_reliability.png`.
+
 ```bash
-python train.py --really-train --adapters gate_mlp \
-    --best-dir run_02 \   # write here
-    --load-dir run_01     # read age adapters from here
+# Full test manifest (large)
+python test.py --load-dir best --base-data-dir /path/to/data \
+    --test-json test_by_child_id.json
+
+# TA / quick run — 200 utterances, stratified (data/test_ta_200.json)
+python test.py --load-dir best --base-data-dir /path/to/data \
+    --test-json test_ta_200.json
 ```
+
+| Flag | Description |
+|------|-------------|
+| `--test-json` | Filename under `data/` or absolute path to the test manifest |
+| `--max-samples` | Optional cap on the first N records (debug) |
+| `--load-dir` | Weights subdirectory (default `best`) |
+
+Regenerate the TA subset:
+
+```bash
+python data/build_ta_test_subset.py
+```
+
+---
+
+## Regenerating `instruction.pdf`
+
+```bash
+python build_instruction_pdf.py
+```
+
+---
+
+## Submission checklist
+
+1. Copy trained checkpoints into `weights/best/` (ignored by git; required in the Moodle zip).
+2. Include `instruction.pdf` at the project root.
+3. Ensure markers can reach the audio corpus (default base path in `config.py`, or document `--base-data-dir` in `instruction.pdf`). Only JSON manifests live under `data/` in the repo.

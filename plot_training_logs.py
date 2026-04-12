@@ -635,26 +635,42 @@ def _plot_model(ax, parsed: dict) -> None:
         ax.legend(handles, labels, frameon=False, fontsize=8, loc="best")
 
 
-def main() -> None:
-    args = parse_args()
-    log_paths = [path.resolve() for path in args.logs] if args.logs else _discover_logs(args.weights_dir.resolve())
+def write_training_logs_pdf(
+    *,
+    weights_dir: Path,
+    out: Path | None = None,
+    logs: list[Path] | None = None,
+    recover_lora_val_loss: bool = False,
+    eval_device: str = "auto",
+    base_data_dir: Path | None = None,
+    audio_dir: Path | None = None,
+    base_model_dir: Path | None = None,
+) -> Path:
+    """Build a multi-panel PDF from ``training_log.json`` files under *weights_dir*.
+
+    Used by ``train.py`` after TA/full runs and by the CLI. Raises ``FileNotFoundError``
+    if no log files are found.
+    """
+    resolved_weights = weights_dir.resolve()
+    log_paths = [path.resolve() for path in logs] if logs else _discover_logs(resolved_weights)
     if not log_paths:
         raise FileNotFoundError("No training_log.json files found.")
 
-    if args.recover_lora_val_loss:
-        eval_device = _resolve_eval_device(args.eval_device)
-        print(f"Recovering LoRA validation loss on device: {eval_device}")
+    if recover_lora_val_loss:
+        device = _resolve_eval_device(eval_device)
+        print(f"Recovering LoRA validation loss on device: {device}")
         for log_path in log_paths:
             status = _recover_lora_val_losses_for_log(
                 log_path,
-                eval_device=eval_device,
-                base_data_dir=args.base_data_dir,
-                audio_dir=args.audio_dir,
-                base_model_dir=args.base_model_dir,
+                eval_device=device,
+                base_data_dir=base_data_dir,
+                audio_dir=audio_dir,
+                base_model_dir=base_model_dir,
             )
             if status:
                 print(status)
 
+    out_path = (out or DEFAULT_OUT).resolve()
     parsed_logs = [_parse_log(path) for path in log_paths]
     n = len(parsed_logs)
     ncols = 2
@@ -670,10 +686,25 @@ def main() -> None:
         ax.axis("off")
 
     fig.tight_layout(rect=(0, 0, 1, 0.97))
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(args.out, format="pdf", bbox_inches="tight")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, format="pdf", bbox_inches="tight")
     plt.close(fig)
-    print(f"Saved: {args.out}")
+    return out_path
+
+
+def main() -> None:
+    args = parse_args()
+    out = write_training_logs_pdf(
+        weights_dir=args.weights_dir,
+        out=args.out,
+        logs=list(args.logs) if args.logs else None,
+        recover_lora_val_loss=args.recover_lora_val_loss,
+        eval_device=args.eval_device,
+        base_data_dir=args.base_data_dir,
+        audio_dir=args.audio_dir,
+        base_model_dir=args.base_model_dir,
+    )
+    print(f"Saved: {out}")
 
 
 if __name__ == "__main__":
