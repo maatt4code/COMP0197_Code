@@ -43,10 +43,17 @@ __all__ = ["UniqueSubjectsAdapter"]
 # ── Dataset ───────────────────────────────────────────────────────────────────
 
 class WhisperSpeechDataset(Dataset):
-    def __init__(self, records: list, processor: WhisperProcessor, audio_root: Path):
+    def __init__(
+        self,
+        records: list,
+        processor: WhisperProcessor,
+        audio_root: Path,
+        max_label_tokens: int,
+    ):
         self.records    = records
         self.processor  = processor
         self.audio_root = audio_root
+        self.max_label_tokens = max_label_tokens
 
     def __len__(self):
         return len(self.records)
@@ -59,7 +66,10 @@ class WhisperSpeechDataset(Dataset):
         )
         input_features = feat.input_features.squeeze(0)
         labels = self.processor.tokenizer(
-            item["orthographic_text"].lower(), return_tensors="pt"
+            item["orthographic_text"].lower(),
+            return_tensors="pt",
+            truncation=True,
+            max_length=self.max_label_tokens,
         ).input_ids.squeeze(0)
         return {"input_features": input_features, "labels": labels}
 
@@ -143,6 +153,32 @@ def _load_json(path: Path) -> list:
     return data
 
 
+def _max_label_tokens(model_config) -> int:
+    max_tokens = getattr(model_config, "max_target_positions", None)
+    if max_tokens is None:
+        max_tokens = getattr(model_config, "max_length", None)
+    return int(max_tokens or 448)
+
+
+def _filter_records_by_label_length(
+    records: list,
+    processor: WhisperProcessor,
+    max_label_tokens: int,
+) -> tuple[list, int]:
+    kept: list = []
+    dropped = 0
+    for record in records:
+        label_ids = processor.tokenizer(
+            record["orthographic_text"].lower(),
+            return_tensors="pt",
+        ).input_ids.squeeze(0)
+        if int(label_ids.shape[0]) <= max_label_tokens:
+            kept.append(record)
+        else:
+            dropped += 1
+    return kept, dropped
+
+
 # ── Adapter ───────────────────────────────────────────────────────────────────
 
 class UniqueSubjectsAdapter:
@@ -157,6 +193,7 @@ class UniqueSubjectsAdapter:
         self.ta_train    = ta_train
         self._base_cfg   = base_model.config
         self._base_state = {k: v.cpu().clone() for k, v in base_model.state_dict().items()}
+        self.max_label_tokens = _max_label_tokens(base_model.config)
 
     # ── public API ────────────────────────────────────────────────────────────
 
@@ -189,18 +226,44 @@ class UniqueSubjectsAdapter:
             val_data   = val_data[:TrainingConfig.TA_TRAIN_SAMPLES]
             n_epochs   = TrainingConfig.TA_TRAIN_EPOCHS
 
+        train_data, train_dropped = _filter_records_by_label_length(
+            train_data, self.processor, self.max_label_tokens
+        )
+        val_data, val_dropped = _filter_records_by_label_length(
+            val_data, self.processor, self.max_label_tokens
+        )
+        if not train_data:
+            raise ValueError(
+                f"All training records exceed the decoder label limit of "
+                f"{self.max_label_tokens} tokens."
+            )
+        if not val_data:
+            raise ValueError(
+                f"All validation records exceed the decoder label limit of "
+                f"{self.max_label_tokens} tokens."
+            )
+
         print(f"\n{'='*60}")
         print(f"  LoRA training — unique subjects"
               + (" [TA_TRAIN]" if self.ta_train else ""))
         print(f"  Train JSON : {train_path}  ({len(train_data)} records)")
         print(f"  Val JSON   : {val_path}  ({len(val_data)} records)")
+        if train_dropped or val_dropped:
+            print(
+                f"  Dropped {train_dropped} train / {val_dropped} val records "
+                f"with labels longer than {self.max_label_tokens} tokens"
+            )
         print(f"  Epochs: {n_epochs}  Device: {self.device}")
         print('='*60)
 
         model    = self._build_lora_model()
         collator = DataCollatorSpeechSeq2SeqWithPadding(processor=self.processor)
-        train_ds = WhisperSpeechDataset(train_data, self.processor, audio_root)
-        val_ds   = WhisperSpeechDataset(val_data,   self.processor, audio_root)
+        train_ds = WhisperSpeechDataset(
+            train_data, self.processor, audio_root, self.max_label_tokens
+        )
+        val_ds   = WhisperSpeechDataset(
+            val_data, self.processor, audio_root, self.max_label_tokens
+        )
 
         best_dir = self.config.adapter_best_weights_path("unique_subjects")
         best_dir.mkdir(parents=True, exist_ok=True)
