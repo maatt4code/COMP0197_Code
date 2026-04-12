@@ -1,4 +1,8 @@
-/weights/*
+/weights/adapters/
+/weights/best/
+/weights/bitfit/
+/weights/old/
+/weights/old2/
 **/__pycache__/
 .vscode/
 .env
