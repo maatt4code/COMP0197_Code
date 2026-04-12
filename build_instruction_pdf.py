@@ -46,7 +46,7 @@ SECTIONS: list[tuple[str, list[str]]] = [
     (
         "2. Expected submission zip layout",
         [
-            "  config.py  train.py  test.py  metrics.py  data_layout.py  build_instruction_pdf.py",
+            "  config.py  train.py  test.py  metrics.py  build_instruction_pdf.py",
             "  env_comp0197_g33_submission.yml  instruction.pdf  README.md",
             "  data/*.json  (manifests including test_ta_200.json)",
             "  models/",
@@ -59,19 +59,13 @@ SECTIONS: list[tuple[str, list[str]]] = [
         [
             "JSON manifests live in data/ in the zip. Audio files are not in the repo.",
             "Default base (UCL lab): /cs/student/projects3/COMP0158/grp_1/data with audio/ and noise/.",
-            "Elsewhere, pass your corpus root, e.g.:",
-            "  python train.py --prepare-data --base-data-dir /path/to/parent/of/audio",
-            "",
-            "--prepare-data checks that data/*.json exists, audio/ is present, and (for training)",
-            "that noise/ exists. It does not download data; obtain the dataset per module rules.",
+            "Elsewhere, pass your corpus root with --base-data-dir (and optionally --audio-dir / --noise-dir).",
+            "Obtain the dataset per module rules; this repo does not download the corpus.",
         ],
     ),
     (
         "4. Training (bundle the checkpoints you report)",
         [
-            "Verify layout:",
-            "  python train.py --prepare-data --base-data-dir <your_base>",
-            "",
             "Smoke test (no GPU required, small run):",
             "  python train.py --ta-train --base-data-dir <your_base>",
             "",

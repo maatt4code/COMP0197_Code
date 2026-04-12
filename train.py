@@ -1,20 +1,12 @@
-"""
-GenAI disclosure: Assistive tools (e.g. Cursor/LLM-based coding assistants) were used for
-refactoring, documentation, and boilerplate. All changes were reviewed and tested locally.
-"""
-
 import argparse
 import sys
 import torch
 from config import Config, DEFAULT_BASE_DATA_DIR, TrainingConfig
-from data_layout import print_validation_report, validate_data_layout
 from models import train_by_age_groups_lora
 from models import train_by_age_groups_gatingmlp
 from models import train_by_unique_subjects
 from pathlib import Path
 from peft import PeftModel
-
-HERE = Path(__file__).resolve().parent
 
 # ── Adapter registry ──────────────────────────────────────────────────────────
 
@@ -202,15 +194,6 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
-        "--prepare-data",
-        action="store_true",
-        help=(
-            "Validate JSON manifests under data/ and audio (and optionally noise) directories.\n"
-            "Exits 0 if the expected layout is present; prints actionable errors otherwise.\n"
-            "Does not download data — point --base-data-dir at your dataset root."
-        ),
-    )
-    parser.add_argument(
         "--best-dir",
         type=str,
         default=None,
@@ -256,14 +239,6 @@ def parse_args() -> argparse.Namespace:
         help=(
             "Noise files directory for augmentation.\n"
             "Default: <base-data-dir>/noise/"
-        ),
-    )
-    parser.add_argument(
-        "--no-plot-training-logs",
-        action="store_true",
-        help=(
-            "After --ta-train or --really-train, skip writing training_logs.pdf "
-            "(multi-panel curves from weights/<best-dir>/*/training_log.json)."
         ),
     )
 
@@ -349,11 +324,6 @@ def main():
     if args.noise_dir is not None:
         Config.set_noise_dir(args.noise_dir)
 
-    if args.prepare_data:
-        ok, msgs = validate_data_layout(require_noise=False)
-        print_validation_report(ok, msgs)
-        sys.exit(0 if ok else 1)
-
     mode = _resolve_mode(args)
 
     config = Config(is_inference=False)
@@ -361,12 +331,6 @@ def main():
     adapters_to_train: list[str] = args.adapters if args.adapters is not None else ALL_ADAPTERS.copy()
     prereqs = _prereqs_for(adapters_to_train)
     ensemble_prereqs = ENSEMBLE_DEPS if args.train_ensemble else []
-
-    if mode in (TrainingMode.REALLY_TRAIN, TrainingMode.TA_TRAIN):
-        ok, msgs = validate_data_layout(require_noise=True)
-        if not ok:
-            print_validation_report(ok, msgs)
-            sys.exit(1)
 
     print(f"Device        : {config.device()}")
     print(f"Audio dir     : {Config.audio_dir()}")
@@ -395,21 +359,6 @@ def main():
         # Hook for ensemble trainer: loads weights/final/ and returns (peft_model, gate_ckpt, processor).
         factory.load_final_ensemble()
         print("\n[ensemble] Ensemble training is not yet implemented.")
-
-    if (
-        mode in (TrainingMode.REALLY_TRAIN, TrainingMode.TA_TRAIN)
-        and not args.no_plot_training_logs
-    ):
-        weights_parent = config.adapter_best_weights_path(adapters_to_train[0]).parent
-        try:
-            from plot_training_logs import write_training_logs_pdf
-
-            out_pdf = write_training_logs_pdf(weights_dir=weights_parent, out=HERE / "training_logs.pdf")
-            print(f"\n[plots] Training log PDF → {out_pdf}")
-        except FileNotFoundError:
-            print("\n[plots] No training_log.json files found; skipping training_logs.pdf.")
-        except ImportError as exc:
-            print(f"\n[plots] Skipping training_logs.pdf (import failed: {exc}).")
 
 
 if __name__ == "__main__":

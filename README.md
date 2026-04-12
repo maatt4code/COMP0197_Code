@@ -22,7 +22,6 @@ See [instruction.pdf](instruction.pdf) for reproduction steps required by the co
 
 ```
 config.py                          — Config and TrainingConfig
-data_layout.py                     — Shared data path validation (--prepare-data)
 train.py                           — Main training entry point
 test.py                            — Evaluation, metrics, CSV/JSON, and PNG figures
 metrics.py                         — WER implementation (no third-party deps)
@@ -56,13 +55,7 @@ JSON manifests in `data/` store paths relative to the **audio root** directory.
 
 On machines without that path, pass `--base-data-dir` (and optionally `--audio-dir` / `--noise-dir`).
 
-Validate layout (manifests + `audio/`; no noise check):
-
-```bash
-python train.py --prepare-data
-```
-
-Training modes (`--ta-train`, `--really-train`) also require `noise/` to exist unless you override paths.
+Training modes (`--ta-train`, `--really-train`) expect `noise/` under the base data directory for augmentation unless you override `--noise-dir`.
 
 ---
 
@@ -94,9 +87,6 @@ Exactly one mode must be active (default: `--mock`):
 ### Examples
 
 ```bash
-# Validate JSON manifests + audio (+ noise if training)
-python train.py --prepare-data
-
 # Verify all adapters are loadable (default mock mode)
 python train.py
 
@@ -121,7 +111,6 @@ python train.py --really-train --adapters gate_mlp \
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `--prepare-data` | — | Validate data layout and exit (exit code 0/1) |
 | `--best-dir` | `best` | Subdirectory under `weights/` for new checkpoints |
 | `--load-dir` | *(same as `--best-dir`)* | Subdirectory under `weights/` for loading prereqs / mock |
 | `--base-data-dir` | UCL lab path in `config.DEFAULT_BASE_DATA_DIR` | Parent of `audio/` and `noise/` |
