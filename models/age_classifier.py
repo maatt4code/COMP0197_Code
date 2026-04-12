@@ -25,7 +25,7 @@ __all__ = [
 
 
 class AgeClassifierHead(nn.Module):
-    """Notebook-style MLP classifier over pooled Whisper encoder embeddings."""
+    """MLP classifier over pooled Whisper encoder embeddings."""
 
     def __init__(self, d_model: int, hidden: int, n_classes: int, dropout: float):
         super().__init__()
