@@ -2,10 +2,7 @@
   "alora_invocation_tokens": null,
   "alpha_pattern": {},
   "arrow_config": null,
-  "auto_mapping": {
-    "base_model_class": "WhisperForConditionalGeneration",
-    "parent_library": "transformers.models.whisper.modeling_whisper"
-  },
+  "auto_mapping": null,
   "base_model_name_or_path": "openai/whisper-small",
   "bias": "none",
   "corda_config": null,
@@ -32,11 +29,11 @@
   "rank_pattern": {},
   "revision": null,
   "target_modules": [
-    "q_proj",
-    "v_proj"
+    "v_proj",
+    "q_proj"
   ],
   "target_parameters": null,
-  "task_type": null,
+  "task_type": "SEQ_2_SEQ_LM",
   "trainable_token_indices": null,
   "use_dora": false,
   "use_qalora": false,
