@@ -28,6 +28,7 @@ sys.path.insert(0, PARENT_DIR)
 
 from config import Config, TrainingConfig
 from metrics import wer as compute_wer
+from models.training_log import StructuredTrainingLogger, TrainerMetricsCallback
 
 import numpy as np
 import torch
@@ -276,6 +277,17 @@ class LoraAdapter:
 
         best_dir = self.config.adapter_best_weights_path(self.age_bucket)
         best_dir.mkdir(parents=True, exist_ok=True)
+        training_logger = StructuredTrainingLogger(
+            best_dir / "training_log.json",
+            metadata={
+                "adapter": Config.lora_bucket_to_adapter(self.age_bucket),
+                "age_bucket": self.age_bucket,
+                "framework": "huggingface_trainer",
+                "train_json": train_json,
+                "val_json": val_json,
+                "ta_train": self.ta_train,
+            },
+        )
 
         training_args = Seq2SeqTrainingArguments(
             output_dir                  = str(best_dir),
@@ -316,6 +328,7 @@ class LoraAdapter:
             data_collator   = collator,
             compute_metrics = _compute_metrics,
             processing_class = self.processor.feature_extractor,
+            callbacks       = [TrainerMetricsCallback(training_logger)],
         )
         trainer.train()
 
@@ -323,9 +336,17 @@ class LoraAdapter:
         # the best checkpoint — save the adapter to weights/best/<name>/.
         model.save_pretrained(str(best_dir))
         self.processor.save_pretrained(str(best_dir))
+        training_logger.update_summary(
+            best_checkpoint_dir=str(best_dir),
+            train_records=len(train_data),
+            val_records=len(val_data),
+            epochs=float(trainer.state.epoch or n_epochs),
+        )
         print(f"  Best adapter saved → {best_dir}")
+        print(f"  Training log saved → {training_logger.log_path}")
 
         eval_results = trainer.evaluate()
+        training_logger.update_summary(best_eval_wer=eval_results.get("eval_wer"))
         print(f"  [{self.age_bucket}] best eval WER = {eval_results.get('eval_wer', float('nan')):.4f}")
 
     # ── private helpers ───────────────────────────────────────────────────────

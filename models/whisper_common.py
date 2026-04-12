@@ -25,6 +25,7 @@ __all__ = [
     "mean_pool_encoder_outputs",
     "prepare_audio_features",
     "transcribe_audio",
+    "transcribe_audio_with_details",
     "transcribe_record",
 ]
 
@@ -174,6 +175,59 @@ def _generate_context(model, adapter_name: str | None):
     if adapter_name is not None and hasattr(model, "set_adapter"):
         model.set_adapter(adapter_name)
     return nullcontext()
+
+
+def _summarise_generation_scores(scores: tuple[torch.Tensor, ...] | list[torch.Tensor]) -> dict[str, float | int]:
+    if not scores:
+        return {
+            "mean_token_entropy": float("nan"),
+            "mean_max_token_probability": float("nan"),
+            "generated_token_count": 0,
+        }
+
+    stacked_scores = torch.stack(list(scores), dim=1)
+    probs = torch.softmax(stacked_scores, dim=-1)
+    token_confidence = probs.max(dim=-1).values.squeeze(0)
+    token_entropy = -(probs * torch.log(probs + 1e-10)).sum(dim=-1).squeeze(0)
+    return {
+        "mean_token_entropy": float(token_entropy.mean().item()),
+        "mean_max_token_probability": float(token_confidence.mean().item()),
+        "generated_token_count": int(token_entropy.numel()),
+    }
+
+
+def transcribe_audio_with_details(
+    model,
+    processor,
+    audio: np.ndarray,
+    device: str,
+    adapter_name: str | None = None,
+    max_new_tokens: int = 225,
+) -> dict[str, float | int | str]:
+    """Generate a transcription plus token-level uncertainty summary."""
+    model.eval()
+    inputs = prepare_audio_features(processor, audio, device=device)
+    generation_context = _generate_context(model, adapter_name=adapter_name)
+
+    with generation_context:
+        with torch.no_grad():
+            generation = model.generate(
+                input_features=inputs["input_features"],
+                attention_mask=inputs["attention_mask"],
+                max_length=None,
+                max_new_tokens=max_new_tokens,
+                return_dict_in_generate=True,
+                output_scores=True,
+            )
+
+    transcription = processor.batch_decode(
+        generation.sequences,
+        skip_special_tokens=True,
+    )[0]
+    return {
+        "transcription": transcription,
+        **_summarise_generation_scores(generation.scores),
+    }
 
 
 def transcribe_audio(

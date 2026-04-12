@@ -221,6 +221,21 @@ def _normalise_audio_inputs(
     raise TypeError("Unsupported gate input type.")
 
 
+def _entropy_from_probs(probs: torch.Tensor) -> torch.Tensor:
+    return -(probs * torch.log(probs.clamp_min(1e-10))).sum(dim=-1)
+
+
+def _variation_ratio(predictions: torch.Tensor, n_classes: int) -> torch.Tensor:
+    ratios: list[torch.Tensor] = []
+    for sample_predictions in predictions.transpose(0, 1):
+        counts = torch.bincount(sample_predictions, minlength=n_classes)
+        mode_count = counts.max()
+        ratios.append(
+            1.0 - mode_count.float() / float(sample_predictions.numel())
+        )
+    return torch.stack(ratios, dim=0)
+
+
 def run_gate_inference(
     inputs,
     encoder,
@@ -231,10 +246,12 @@ def run_gate_inference(
     age_buckets: list[str] | None = None,
     audio_root: Path | None = None,
     adapter_model=None,
+    mc_dropout_samples: int = 1,
 ) -> dict[str, torch.Tensor | list[str]]:
     """Run the gate classifier and return raw + calibrated outputs."""
     age_buckets = age_buckets or Config.lora_age_buckets()
     audios = _normalise_audio_inputs(inputs, audio_root=audio_root)
+    assert mc_dropout_samples >= 1, "mc_dropout_samples must be >= 1."
     classifier_head.eval()
     temperature_scaler.eval()
     encoder.eval()
@@ -247,14 +264,52 @@ def run_gate_inference(
             device=device,
             adapter_model=adapter_model,
         )
-        logits = classifier_head(pooled)
-        calibrated_logits = temperature_scaler(logits)
-        probs = torch.softmax(calibrated_logits, dim=-1)
+
+        if mc_dropout_samples > 1:
+            classifier_head.train()
+            logits_samples = []
+            calibrated_logits_samples = []
+            for _ in range(mc_dropout_samples):
+                logits = classifier_head(pooled)
+                calibrated_logits = temperature_scaler(logits)
+                logits_samples.append(logits)
+                calibrated_logits_samples.append(calibrated_logits)
+            classifier_head.eval()
+
+            logits_stack = torch.stack(logits_samples, dim=0)
+            calibrated_logits_stack = torch.stack(calibrated_logits_samples, dim=0)
+            probs_stack = torch.softmax(calibrated_logits_stack, dim=-1)
+            probs = probs_stack.mean(dim=0)
+            logits = logits_stack.mean(dim=0)
+            calibrated_logits = torch.log(probs.clamp_min(1e-10))
+            sampled_predictions = probs_stack.argmax(dim=-1)
+            predictive_entropy = _entropy_from_probs(probs)
+            expected_entropy = _entropy_from_probs(probs_stack).mean(dim=0)
+            mutual_information = predictive_entropy - expected_entropy
+            variation_ratio = _variation_ratio(
+                sampled_predictions,
+                n_classes=len(age_buckets),
+            )
+        else:
+            logits = classifier_head(pooled)
+            calibrated_logits = temperature_scaler(logits)
+            probs = torch.softmax(calibrated_logits, dim=-1)
+            predictive_entropy = _entropy_from_probs(probs)
+            expected_entropy = predictive_entropy.clone()
+            mutual_information = torch.zeros_like(predictive_entropy)
+            variation_ratio = torch.zeros_like(predictive_entropy)
 
     return {
         "logits": logits.detach().cpu(),
         "calibrated_logits": calibrated_logits.detach().cpu(),
         "probs": probs.detach().cpu(),
+        "mc_dropout": {
+            "samples": mc_dropout_samples,
+            "predictive_entropy": predictive_entropy.detach().cpu(),
+            "expected_entropy": expected_entropy.detach().cpu(),
+            "mutual_information": mutual_information.detach().cpu(),
+            "variation_ratio": variation_ratio.detach().cpu(),
+        },
         "age_buckets": age_buckets,
     }
 

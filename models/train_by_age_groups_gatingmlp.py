@@ -31,6 +31,7 @@ from models.age_classifier import (
     load_gate_checkpoint,
     save_gate_checkpoint,
 )
+from models.training_log import StructuredTrainingLogger
 from models.whisper_common import (
     extract_pooled_embeddings,
     get_whisper_encoder,
@@ -277,6 +278,18 @@ class GatingMLPAdapter:
             labels=val_labels,
             batch_size=GATE_BATCH_SIZE,
         )
+        best_dir = self.config.adapter_best_weights_path("gate_mlp")
+        best_dir.mkdir(parents=True, exist_ok=True)
+        training_logger = StructuredTrainingLogger(
+            best_dir / "training_log.json",
+            metadata={
+                "adapter": "gate_mlp",
+                "framework": "custom_epoch_loop",
+                "train_json": train_json,
+                "val_json": val_json,
+                "ta_train": self.ta_train,
+            },
+        )
 
         print("\n[2/3] Training classifier head...")
         classifier_head = AgeClassifierHead(
@@ -322,6 +335,26 @@ class GatingMLPAdapter:
                 "val_accuracy": val_metrics["accuracy"],
             }
             history.append(epoch_metrics)
+            training_logger.log_event(
+                "train",
+                epoch=epoch,
+                step=epoch,
+                metrics={
+                    "loss": train_metrics["loss"],
+                    "accuracy": train_metrics["accuracy"],
+                    "examples": train_metrics["examples"],
+                },
+            )
+            training_logger.log_event(
+                "eval",
+                epoch=epoch,
+                step=epoch,
+                metrics={
+                    "loss": val_metrics["loss"],
+                    "accuracy": val_metrics["accuracy"],
+                    "examples": val_metrics["examples"],
+                },
+            )
 
             monitor_value = epoch_metrics["val_loss"]
             improved = best_metric is None or monitor_value < (best_metric - EARLY_STOPPING_MIN_DELTA)
@@ -369,9 +402,12 @@ class GatingMLPAdapter:
         )
 
         history.append({"calibration": calibration_metrics})
-
-        best_dir = self.config.adapter_best_weights_path("gate_mlp")
-        best_dir.mkdir(parents=True, exist_ok=True)
+        training_logger.log_event(
+            "calibration",
+            epoch=best_epoch,
+            step=best_epoch,
+            metrics=calibration_metrics,
+        )
         checkpoint_path = best_dir / "gate_mlp.pt"
         save_gate_checkpoint(
             checkpoint_path=checkpoint_path,
@@ -386,6 +422,14 @@ class GatingMLPAdapter:
             best_epoch=best_epoch,
             whisper_model_name=Config.model_name(),
         )
+        training_logger.update_summary(
+            best_epoch=best_epoch,
+            best_val_loss=best_metric,
+            train_records=len(train_records),
+            val_records=len(val_records),
+            checkpoint_path=str(checkpoint_path),
+        )
+        print(f"  training log saved -> {training_logger.log_path}")
         print(f"  saved gate checkpoint -> {checkpoint_path}")
 
     def _mock_load(self) -> None:

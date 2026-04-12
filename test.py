@@ -7,10 +7,12 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 from datetime import datetime
 from pathlib import Path
 
 import torch
+import torch.nn.functional as F
 from peft import PeftModel
 
 from config import Config
@@ -25,6 +27,7 @@ from models.whisper_common import (
     load_audio,
     load_manifest_records,
     transcribe_audio,
+    transcribe_audio_with_details,
 )
 
 HERE = Path(__file__).resolve().parent
@@ -71,6 +74,15 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Limit evaluation to the first N test records for a quick smoke test.",
     )
+    parser.add_argument(
+        "--gate-mc-dropout-samples",
+        type=int,
+        default=20,
+        help=(
+            "Number of stochastic forward passes for gate MC-dropout uncertainty. "
+            "Use 1 to disable epistemic uncertainty estimation."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -100,7 +112,8 @@ def transcribe_weighted_mole(
     device: str,
     adapter_names: list[str],
     weights: list[float],
-) -> str:
+    return_details: bool = False,
+) -> str | dict[str, float | int | str]:
     add_weighted_adapter = _resolve_adapter_method(peft_model, "add_weighted_adapter")
     delete_adapter = _resolve_adapter_method(peft_model, "delete_adapter")
     if add_weighted_adapter is None or delete_adapter is None:
@@ -121,6 +134,14 @@ def transcribe_weighted_mole(
     )
 
     try:
+        if return_details:
+            return transcribe_audio_with_details(
+                model=peft_model,
+                processor=processor,
+                audio=audio,
+                device=device,
+                adapter_name=TEMP_WEIGHTED_ADAPTER,
+            )
         return transcribe_audio(
             model=peft_model,
             processor=processor,
@@ -161,21 +182,32 @@ def load_peft_model_and_gate(config: Config):
     return processor, peft_model, gate_bundle
 
 
-def compute_summary_rows(records: list[dict], predictions_by_mode: dict[str, list[str]]) -> list[dict]:
+def _mean(values: list[float]) -> float:
+    finite_values = [value for value in values if not math.isnan(value)]
+    if not finite_values:
+        return float("nan")
+    return float(sum(finite_values) / len(finite_values))
+
+
+def compute_summary_rows(
+    records: list[dict],
+    outputs_by_mode: dict[str, list[dict[str, float | int | str]]],
+) -> list[dict]:
     rows: list[dict] = []
     splits = ["overall", *Config.lora_age_buckets()]
 
-    for mode, hypotheses in predictions_by_mode.items():
+    for mode, outputs in outputs_by_mode.items():
         for split in splits:
             if split == "overall":
                 split_records = records
-                split_hypotheses = hypotheses
+                split_outputs = outputs
             else:
                 indices = [idx for idx, record in enumerate(records) if record["age_bucket"] == split]
                 split_records = [records[idx] for idx in indices]
-                split_hypotheses = [hypotheses[idx] for idx in indices]
+                split_outputs = [outputs[idx] for idx in indices]
 
             references = [record["orthographic_text"] for record in split_records]
+            split_hypotheses = [str(output["transcription"]) for output in split_outputs]
             wer_value = compute_wer(references, split_hypotheses) if split_records else float("nan")
             rows.append(
                 {
@@ -183,6 +215,9 @@ def compute_summary_rows(records: list[dict], predictions_by_mode: dict[str, lis
                     "split": split,
                     "n": len(split_records),
                     "wer": wer_value,
+                    "mean_token_entropy": _mean(
+                        [float(output["mean_token_entropy"]) for output in split_outputs]
+                    ),
                 }
             )
 
@@ -191,12 +226,13 @@ def compute_summary_rows(records: list[dict], predictions_by_mode: dict[str, lis
 
 def compute_classifier_rows(
     records: list[dict],
-    calibrated_logits: torch.Tensor,
+    gate_probs: torch.Tensor,
     labels: torch.Tensor,
     age_buckets: list[str],
+    gate_uncertainty: dict[str, torch.Tensor],
 ) -> list[dict]:
-    criterion = torch.nn.CrossEntropyLoss()
-    probs = torch.softmax(calibrated_logits, dim=-1)
+    log_probs = torch.log(gate_probs.clamp_min(1e-10))
+    probs = gate_probs
     predictions = probs.argmax(dim=-1)
     splits = ["overall", *age_buckets]
     rows: list[dict] = []
@@ -210,15 +246,15 @@ def compute_classifier_rows(
                 dtype=torch.bool,
             )
 
-        split_logits = calibrated_logits[split_mask]
         split_probs = probs[split_mask]
+        split_log_probs = log_probs[split_mask]
         split_labels = labels[split_mask]
         split_predictions = predictions[split_mask]
         if split_labels.numel() == 0:
             continue
 
         accuracy = (split_predictions == split_labels).float().mean().item()
-        nll = criterion(split_logits, split_labels).item()
+        nll = F.nll_loss(split_log_probs, split_labels).item()
         ece = expected_calibration_error(split_probs, split_labels)
 
         rows.append(
@@ -228,6 +264,18 @@ def compute_classifier_rows(
                 "accuracy": float(accuracy),
                 "nll": float(nll),
                 "ece": float(ece),
+                "mean_predictive_entropy": float(
+                    gate_uncertainty["predictive_entropy"][split_mask].mean().item()
+                ),
+                "mean_expected_entropy": float(
+                    gate_uncertainty["expected_entropy"][split_mask].mean().item()
+                ),
+                "mean_mutual_information": float(
+                    gate_uncertainty["mutual_information"][split_mask].mean().item()
+                ),
+                "mean_variation_ratio": float(
+                    gate_uncertainty["variation_ratio"][split_mask].mean().item()
+                ),
             }
         )
 
@@ -249,12 +297,13 @@ def write_jsonl(path: Path, rows: list[dict]) -> None:
 
 def print_summary_table(rows: list[dict]) -> None:
     print("\nASR Results")
-    header = f"{'mode':<16} {'split':<8} {'n':>6} {'wer':>10}"
+    header = f"{'mode':<16} {'split':<8} {'n':>6} {'wer':>10} {'mean_H':>10}"
     print(header)
     print("-" * len(header))
     for row in rows:
         print(
-            f"{row['mode']:<16} {row['split']:<8} {row['n']:>6} {row['wer']:>10.4f}"
+            f"{row['mode']:<16} {row['split']:<8} {row['n']:>6} "
+            f"{row['wer']:>10.4f} {row['mean_token_entropy']:>10.4f}"
         )
 
 
@@ -282,6 +331,7 @@ def main() -> None:
     print(f"Load dir   : {args.load_dir or 'best'}")
     print(f"Test JSON  : {test_manifest}")
     print(f"Utterances : {len(records)}")
+    print(f"Gate MC samples: {args.gate_mc_dropout_samples}")
     if args.max_samples is not None:
         print(f"Max samples: {args.max_samples}")
 
@@ -294,7 +344,7 @@ def main() -> None:
             f"but this project loads {Config.model_name()}."
         )
 
-    mode_predictions: dict[str, list[str]] = {
+    mode_outputs: dict[str, list[dict[str, float | int | str]]] = {
         "base": [],
         "age_3_4": [],
         "age_5_7": [],
@@ -304,8 +354,12 @@ def main() -> None:
         "gated_router": [],
     }
     prediction_rows: list[dict] = []
-    all_gate_logits: list[torch.Tensor] = []
+    all_gate_probs: list[torch.Tensor] = []
     all_gate_labels: list[int] = []
+    all_gate_predictive_entropy: list[float] = []
+    all_gate_expected_entropy: list[float] = []
+    all_gate_mutual_information: list[float] = []
+    all_gate_variation_ratio: list[float] = []
 
     for idx, record in enumerate(records, start=1):
         audio = load_audio(audio_root / record["audio_path"])
@@ -318,10 +372,11 @@ def main() -> None:
             device=device,
             age_buckets=gate_bundle["age_buckets"],
             adapter_model=peft_model,
+            mc_dropout_samples=args.gate_mc_dropout_samples,
         )
 
         probs = gate_outputs["probs"][0]
-        calibrated_logits = gate_outputs["calibrated_logits"][0]
+        gate_mc = gate_outputs["mc_dropout"]
         predicted_idx = int(probs.argmax().item())
         routed_bucket = gate_bundle["age_buckets"][predicted_idx]
         routed_adapter = gate_bundle["adapter_names"][predicted_idx]
@@ -329,37 +384,42 @@ def main() -> None:
             bucket: float(probs[bucket_idx].item())
             for bucket_idx, bucket in enumerate(gate_bundle["age_buckets"])
         }
+        gate_entropy = float((-(probs * torch.log(probs + 1e-10)).sum()).item())
+        gate_predictive_entropy = float(gate_mc["predictive_entropy"][0].item())
+        gate_expected_entropy = float(gate_mc["expected_entropy"][0].item())
+        gate_mutual_information = float(gate_mc["mutual_information"][0].item())
+        gate_variation_ratio = float(gate_mc["variation_ratio"][0].item())
 
-        utterance_predictions = {
-            "base": transcribe_audio(
+        utterance_outputs = {
+            "base": transcribe_audio_with_details(
                 model=peft_model,
                 processor=processor,
                 audio=audio,
                 device=device,
                 adapter_name=None,
             ),
-            "age_3_4": transcribe_audio(
+            "age_3_4": transcribe_audio_with_details(
                 model=peft_model,
                 processor=processor,
                 audio=audio,
                 device=device,
                 adapter_name="age_3_4",
             ),
-            "age_5_7": transcribe_audio(
+            "age_5_7": transcribe_audio_with_details(
                 model=peft_model,
                 processor=processor,
                 audio=audio,
                 device=device,
                 adapter_name="age_5_7",
             ),
-            "age_8_11": transcribe_audio(
+            "age_8_11": transcribe_audio_with_details(
                 model=peft_model,
                 processor=processor,
                 audio=audio,
                 device=device,
                 adapter_name="age_8_11",
             ),
-            "unique_subjects": transcribe_audio(
+            "unique_subjects": transcribe_audio_with_details(
                 model=peft_model,
                 processor=processor,
                 audio=audio,
@@ -373,8 +433,9 @@ def main() -> None:
                 device=device,
                 adapter_names=gate_bundle["adapter_names"],
                 weights=[gate_prob_dict[bucket] for bucket in gate_bundle["age_buckets"]],
+                return_details=True,
             ),
-            "gated_router": transcribe_audio(
+            "gated_router": transcribe_audio_with_details(
                 model=peft_model,
                 processor=processor,
                 audio=audio,
@@ -383,11 +444,15 @@ def main() -> None:
             ),
         }
 
-        for mode_name, hypothesis in utterance_predictions.items():
-            mode_predictions[mode_name].append(hypothesis)
+        for mode_name, output in utterance_outputs.items():
+            mode_outputs[mode_name].append(output)
 
-        all_gate_logits.append(calibrated_logits)
+        all_gate_probs.append(probs)
         all_gate_labels.append(gate_bundle["age_dict"][record["age_bucket"]])
+        all_gate_predictive_entropy.append(gate_predictive_entropy)
+        all_gate_expected_entropy.append(gate_expected_entropy)
+        all_gate_mutual_information.append(gate_mutual_information)
+        all_gate_variation_ratio.append(gate_variation_ratio)
         prediction_rows.append(
             {
                 "utterance_id": record.get("utterance_id", ""),
@@ -398,22 +463,48 @@ def main() -> None:
                 "gate_prediction": routed_bucket,
                 "routed_adapter": routed_adapter,
                 "gate_probs": gate_prob_dict,
-                "transcriptions": utterance_predictions,
+                "gate_entropy": gate_entropy,
+                "gate_uncertainty": {
+                    "mc_dropout_samples": int(gate_mc["samples"]),
+                    "predictive_entropy": gate_predictive_entropy,
+                    "expected_entropy": gate_expected_entropy,
+                    "mutual_information": gate_mutual_information,
+                    "variation_ratio": gate_variation_ratio,
+                },
+                "transcriptions": {
+                    mode_name: str(output["transcription"])
+                    for mode_name, output in utterance_outputs.items()
+                },
+                "uncertainty": {
+                    mode_name: {
+                        "mean_token_entropy": float(output["mean_token_entropy"]),
+                        "mean_max_token_probability": float(output["mean_max_token_probability"]),
+                        "generated_token_count": int(output["generated_token_count"]),
+                    }
+                    for mode_name, output in utterance_outputs.items()
+                },
             }
         )
 
         if idx % 25 == 0 or idx == len(records):
             print(f"Processed {idx:>5} / {len(records)} utterances")
 
-    calibrated_logits = torch.stack(all_gate_logits, dim=0)
+    gate_probs = torch.stack(all_gate_probs, dim=0)
     gate_labels = torch.tensor(all_gate_labels, dtype=torch.long)
+    gate_uncertainty = {
+        "predictive_entropy": torch.tensor(all_gate_predictive_entropy, dtype=torch.float32),
+        "expected_entropy": torch.tensor(all_gate_expected_entropy, dtype=torch.float32),
+        "mutual_information": torch.tensor(all_gate_mutual_information, dtype=torch.float32),
+        "variation_ratio": torch.tensor(all_gate_variation_ratio, dtype=torch.float32),
+    }
 
-    summary_rows = compute_summary_rows(records, mode_predictions)
+    summary_rows = compute_summary_rows(records, mode_outputs)
     classifier_rows = compute_classifier_rows(
         records=records,
-        calibrated_logits=calibrated_logits,
+        gate_probs=gate_probs,
         labels=gate_labels,
         age_buckets=gate_bundle["age_buckets"],
+        gate_uncertainty=gate_uncertainty,
     )
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -423,18 +514,30 @@ def main() -> None:
     write_csv(
         results_dir / "summary.csv",
         summary_rows,
-        fieldnames=["mode", "split", "n", "wer"],
+        fieldnames=["mode", "split", "n", "wer", "mean_token_entropy"],
     )
     write_csv(
         results_dir / "classifier_metrics.csv",
         classifier_rows,
-        fieldnames=["split", "n", "accuracy", "nll", "ece"],
+        fieldnames=[
+            "split",
+            "n",
+            "accuracy",
+            "nll",
+            "ece",
+            "mean_predictive_entropy",
+            "mean_expected_entropy",
+            "mean_mutual_information",
+            "mean_variation_ratio",
+        ],
     )
     write_jsonl(results_dir / "predictions.jsonl", prediction_rows)
 
     metrics_payload = {
         "generated_at": timestamp,
         "load_dir": args.load_dir or "best",
+        "uncertainty_metric": "mean_token_entropy",
+        "gate_mc_dropout_samples": args.gate_mc_dropout_samples,
         "summary": summary_rows,
         "classifier_metrics": classifier_rows,
     }
