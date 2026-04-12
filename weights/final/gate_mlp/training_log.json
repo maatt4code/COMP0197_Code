@@ -1,7 +1,0 @@
-[
-  {"epoch": "01", "train_loss": "0.0443", "train_acc": "0.988", "val_loss": "0.0260", "val_acc": "0.994"},
-  {"epoch": "02", "train_loss": "0.0243", "train_acc": "0.994", "val_loss": "0.0257", "val_acc": "0.994"},
-  {"epoch": "03", "train_loss": "0.0237", "train_acc": "0.995", "val_loss": "0.0460", "val_acc": "0.992"},
-  {"epoch": "04", "train_loss": "0.0197", "train_acc": "0.996", "val_loss": "0.0134", "val_acc": "0.996"},
-  {"epoch": "05", "train_loss": "0.0206", "train_acc": "0.996", "val_loss": "0.0342", "val_acc": "0.994"}
-]
