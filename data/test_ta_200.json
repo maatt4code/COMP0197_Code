@@ -1,0 +1,1802 @@
+[
+  {
+    "utterance_id": "U_bd33c6d4140b0cfb",
+    "child_id": "C_fb0b2bcc69e695be",
+    "session_id": "S_2af7365fb067089d",
+    "age_bucket": "5-7",
+    "audio_path": "U_bd33c6d4140b0cfb.flac",
+    "audio_duration_sec": 4.11,
+    "orthographic_text": "the children can play but they need to be quiet"
+  },
+  {
+    "utterance_id": "U_986fb4d951440ce9",
+    "child_id": "C_db90afda4d19416a",
+    "session_id": "S_b0b3b8cc4fb3648d",
+    "age_bucket": "5-7",
+    "audio_path": "U_986fb4d951440ce9.flac",
+    "audio_duration_sec": 2.45,
+    "orthographic_text": "air"
+  },
+  {
+    "utterance_id": "U_bdf9d33d62c9176f",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_bdf9d33d62c9176f.flac",
+    "audio_duration_sec": 1.104,
+    "orthographic_text": "girl"
+  },
+  {
+    "utterance_id": "U_a3ad3d27b2253339",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_6f87023faf88357e",
+    "age_bucket": "3-4",
+    "audio_path": "U_a3ad3d27b2253339.flac",
+    "audio_duration_sec": 1.569,
+    "orthographic_text": "a singer"
+  },
+  {
+    "utterance_id": "U_c4955d9457fa3bfc",
+    "child_id": "C_895d196967b56798",
+    "session_id": "S_daa24135ba160a8a",
+    "age_bucket": "5-7",
+    "audio_path": "U_c4955d9457fa3bfc.flac",
+    "audio_duration_sec": 2.24,
+    "orthographic_text": "fish"
+  },
+  {
+    "utterance_id": "U_228b4e7347e21721",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_f722dd7fba4f9302",
+    "age_bucket": "3-4",
+    "audio_path": "U_228b4e7347e21721.flac",
+    "audio_duration_sec": 1.096,
+    "orthographic_text": "one time like this"
+  },
+  {
+    "utterance_id": "U_78839473899fb084",
+    "child_id": "C_98486a2b47ca547b",
+    "session_id": "S_4d0c5104e112e04d",
+    "age_bucket": "8-11",
+    "audio_path": "U_78839473899fb084.flac",
+    "audio_duration_sec": 1.532,
+    "orthographic_text": "probably learn"
+  },
+  {
+    "utterance_id": "U_61e53f62db47fb80",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_61e53f62db47fb80.flac",
+    "audio_duration_sec": 0.748,
+    "orthographic_text": "a zebra"
+  },
+  {
+    "utterance_id": "U_e02b03c2e1cccc91",
+    "child_id": "C_60919ff1bc22ab5a",
+    "session_id": "S_e6b4ab1f7cd10062",
+    "age_bucket": "5-7",
+    "audio_path": "U_e02b03c2e1cccc91.flac",
+    "audio_duration_sec": 1.55,
+    "orthographic_text": "light"
+  },
+  {
+    "utterance_id": "U_3a004ae6282e227d",
+    "child_id": "C_7647f43a30234ccd",
+    "session_id": "S_06b9c08b2dd76baa",
+    "age_bucket": "5-7",
+    "audio_path": "U_3a004ae6282e227d.flac",
+    "audio_duration_sec": 3.26,
+    "orthographic_text": "box"
+  },
+  {
+    "utterance_id": "U_a672a7d9ff9590f8",
+    "child_id": "C_3513cd930c18ba60",
+    "session_id": "S_05e24e27d41ba3de",
+    "age_bucket": "8-11",
+    "audio_path": "U_a672a7d9ff9590f8.flac",
+    "audio_duration_sec": 1.046,
+    "orthographic_text": "worms"
+  },
+  {
+    "utterance_id": "U_79b517dc2085b8f5",
+    "child_id": "C_0c8873c41a20ecf7",
+    "session_id": "S_f548a64b615d95ab",
+    "age_bucket": "8-11",
+    "audio_path": "U_79b517dc2085b8f5.flac",
+    "audio_duration_sec": 0.449,
+    "orthographic_text": "yeah"
+  },
+  {
+    "utterance_id": "U_3d87fbd4d1026afb",
+    "child_id": "C_ada39233c6e0fab9",
+    "session_id": "S_23bcffb4f26d2943",
+    "age_bucket": "5-7",
+    "audio_path": "U_3d87fbd4d1026afb.flac",
+    "audio_duration_sec": 1.34,
+    "orthographic_text": "eat"
+  },
+  {
+    "utterance_id": "U_aaf283361d90a6b7",
+    "child_id": "C_db90afda4d19416a",
+    "session_id": "S_bd4c25b37cdf5db7",
+    "age_bucket": "5-7",
+    "audio_path": "U_aaf283361d90a6b7.flac",
+    "audio_duration_sec": 2.41,
+    "orthographic_text": "paper"
+  },
+  {
+    "utterance_id": "U_dcad13ad50999f79",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_dcad13ad50999f79.flac",
+    "audio_duration_sec": 2.2,
+    "orthographic_text": "i have doritos waiting in the car for me"
+  },
+  {
+    "utterance_id": "U_1646b1ffb90cbc6d",
+    "child_id": "C_484b9c6fa9b2e73e",
+    "session_id": "S_d37475efad60273e",
+    "age_bucket": "8-11",
+    "audio_path": "U_1646b1ffb90cbc6d.flac",
+    "audio_duration_sec": 2.852,
+    "orthographic_text": "it's important because you wanna know"
+  },
+  {
+    "utterance_id": "U_0b3e03da99c16b53",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_0b3e03da99c16b53.flac",
+    "audio_duration_sec": 1.297,
+    "orthographic_text": "footprint"
+  },
+  {
+    "utterance_id": "U_c918c86effa25618",
+    "child_id": "C_f2764244b505b5f5",
+    "session_id": "S_8547cbe43f8fb8b8",
+    "age_bucket": "8-11",
+    "audio_path": "U_c918c86effa25618.flac",
+    "audio_duration_sec": 5.299,
+    "orthographic_text": "a d cell a light bulb and two wires"
+  },
+  {
+    "utterance_id": "U_de9b78ea163ce69d",
+    "child_id": "C_38231c40656453c7",
+    "session_id": "S_a78540070bf93818",
+    "age_bucket": "8-11",
+    "audio_path": "U_de9b78ea163ce69d.flac",
+    "audio_duration_sec": 17.866,
+    "orthographic_text": "but fahrenheit it has like fahrenheit's kinda confusing because it's like i think like every f well i don't know how you explain it because it fahrenheit's kinda confusing because it doesn't go up by tens it goes up by like fives and and s really"
+  },
+  {
+    "utterance_id": "U_df783a80e950ec9b",
+    "child_id": "C_6bcfd5491e81df9c",
+    "session_id": "S_5a143f2209cfe639",
+    "age_bucket": "8-11",
+    "audio_path": "U_df783a80e950ec9b.flac",
+    "audio_duration_sec": 0.698,
+    "orthographic_text": "yeah"
+  },
+  {
+    "utterance_id": "U_76cd3dcbc9d464b0",
+    "child_id": "C_b0cd615b3d96ba9a",
+    "session_id": "S_b789f6d3741bc1e6",
+    "age_bucket": "5-7",
+    "audio_path": "U_76cd3dcbc9d464b0.flac",
+    "audio_duration_sec": 2.62,
+    "orthographic_text": "house"
+  },
+  {
+    "utterance_id": "U_c22605e30a6367d9",
+    "child_id": "C_20d915b0bfd2253c",
+    "session_id": "S_81d6d213d3319c66",
+    "age_bucket": "8-11",
+    "audio_path": "U_c22605e30a6367d9.flac",
+    "audio_duration_sec": 1.615,
+    "orthographic_text": "no clue"
+  },
+  {
+    "utterance_id": "U_8bfbf885b940747a",
+    "child_id": "C_6bcfd5491e81df9c",
+    "session_id": "S_c3e634c3e83396e9",
+    "age_bucket": "8-11",
+    "audio_path": "U_8bfbf885b940747a.flac",
+    "audio_duration_sec": 0.469,
+    "orthographic_text": "yeah"
+  },
+  {
+    "utterance_id": "U_83579a08a82be0b1",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_6683a1ae210918d7",
+    "age_bucket": "3-4",
+    "audio_path": "U_83579a08a82be0b1.flac",
+    "audio_duration_sec": 1.291,
+    "orthographic_text": "is sleeping"
+  },
+  {
+    "utterance_id": "U_cc03b6001231453a",
+    "child_id": "C_79eb61c13e8641d8",
+    "session_id": "S_17fc9f85ab3dba6c",
+    "age_bucket": "8-11",
+    "audio_path": "U_cc03b6001231453a.flac",
+    "audio_duration_sec": 5.512,
+    "orthographic_text": "it means that you make food for everybody and you can never die"
+  },
+  {
+    "utterance_id": "U_6cdbb1a8eaaad6e8",
+    "child_id": "C_e2f2588ecfd02175",
+    "session_id": "S_ed0b8e3a155b01c2",
+    "age_bucket": "5-7",
+    "audio_path": "U_6cdbb1a8eaaad6e8.flac",
+    "audio_duration_sec": 4.54,
+    "orthographic_text": "corn"
+  },
+  {
+    "utterance_id": "U_3e7729caf1b0c766",
+    "child_id": "C_6ef0eee113ae6289",
+    "session_id": "S_bde3e069147197a4",
+    "age_bucket": "5-7",
+    "audio_path": "U_3e7729caf1b0c766.flac",
+    "audio_duration_sec": 2.32,
+    "orthographic_text": "fox"
+  },
+  {
+    "utterance_id": "U_65e61ebee8941352",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_80c5357ec852f45e",
+    "age_bucket": "3-4",
+    "audio_path": "U_65e61ebee8941352.flac",
+    "audio_duration_sec": 1.382,
+    "orthographic_text": "why is this one"
+  },
+  {
+    "utterance_id": "U_0065e2e1a2490aff",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_0065e2e1a2490aff.flac",
+    "audio_duration_sec": 1.051,
+    "orthographic_text": "a"
+  },
+  {
+    "utterance_id": "U_a308c60e601e4dee",
+    "child_id": "C_1b2c856a214bd9d4",
+    "session_id": "S_9192ab8cf3b090db",
+    "age_bucket": "5-7",
+    "audio_path": "U_a308c60e601e4dee.flac",
+    "audio_duration_sec": 1.43,
+    "orthographic_text": "baby"
+  },
+  {
+    "utterance_id": "U_db0e4500adfca99f",
+    "child_id": "C_025cdebe272dfe81",
+    "session_id": "S_f27f09c52f12e78e",
+    "age_bucket": "5-7",
+    "audio_path": "U_db0e4500adfca99f.flac",
+    "audio_duration_sec": 2.96,
+    "orthographic_text": "feet"
+  },
+  {
+    "utterance_id": "U_46561898ad95f695",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_46561898ad95f695.flac",
+    "audio_duration_sec": 0.712,
+    "orthographic_text": "b"
+  },
+  {
+    "utterance_id": "U_06e8b1adc484f0da",
+    "child_id": "C_82d3bfe7a5252740",
+    "session_id": "S_6a850c95bfeff80e",
+    "age_bucket": "5-7",
+    "audio_path": "U_06e8b1adc484f0da.flac",
+    "audio_duration_sec": 1.55,
+    "orthographic_text": "hamburger"
+  },
+  {
+    "utterance_id": "U_c936d5ce35b56a66",
+    "child_id": "C_ee8ec02aa466064d",
+    "session_id": "S_310d2a524f0b198c",
+    "age_bucket": "8-11",
+    "audio_path": "U_c936d5ce35b56a66.flac",
+    "audio_duration_sec": 8.906,
+    "orthographic_text": "intestines are long tubes and the small intestines is the one in the inside because it's a smaller tube the large is on the outside because it's a larger tube"
+  },
+  {
+    "utterance_id": "U_a3b8c140d1d1cb06",
+    "child_id": "C_d3da24a60320862f",
+    "session_id": "S_9f5b952081929f98",
+    "age_bucket": "5-7",
+    "audio_path": "U_a3b8c140d1d1cb06.flac",
+    "audio_duration_sec": 3.77,
+    "orthographic_text": "win"
+  },
+  {
+    "utterance_id": "U_332db36b08eb3cf7",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_332db36b08eb3cf7.flac",
+    "audio_duration_sec": 0.743,
+    "orthographic_text": "white"
+  },
+  {
+    "utterance_id": "U_3af4159ca0ca70f1",
+    "child_id": "C_b984129d04d49fb0",
+    "session_id": "S_252caef27155a3e8",
+    "age_bucket": "5-7",
+    "audio_path": "U_3af4159ca0ca70f1.flac",
+    "audio_duration_sec": 5.01,
+    "orthographic_text": "where are all those big trucks on the interstate going"
+  },
+  {
+    "utterance_id": "U_12a8c5837f67b8e0",
+    "child_id": "C_aa43913f21aa8d1a",
+    "session_id": "S_c044d2173b470947",
+    "age_bucket": "5-7",
+    "audio_path": "U_12a8c5837f67b8e0.flac",
+    "audio_duration_sec": 5.52,
+    "orthographic_text": "next time we go to the pool here do not jump in without your sunscreen"
+  },
+  {
+    "utterance_id": "U_0a8a2a0390facae9",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_ff770149a5ad84ff",
+    "age_bucket": "3-4",
+    "audio_path": "U_0a8a2a0390facae9.flac",
+    "audio_duration_sec": 0.584,
+    "orthographic_text": "tuck"
+  },
+  {
+    "utterance_id": "U_136358d8f910fd7b",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_136358d8f910fd7b.flac",
+    "audio_duration_sec": 0.999,
+    "orthographic_text": "hours"
+  },
+  {
+    "utterance_id": "U_37262a16190db1c0",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_ff770149a5ad84ff",
+    "age_bucket": "3-4",
+    "audio_path": "U_37262a16190db1c0.flac",
+    "audio_duration_sec": 0.913,
+    "orthographic_text": "the cat"
+  },
+  {
+    "utterance_id": "U_c4630488e71dba31",
+    "child_id": "C_3e67191656cb51c1",
+    "session_id": "S_7c09f9488d220a62",
+    "age_bucket": "5-7",
+    "audio_path": "U_c4630488e71dba31.flac",
+    "audio_duration_sec": 1.13,
+    "orthographic_text": "fish"
+  },
+  {
+    "utterance_id": "U_7fb57a03a9d3a285",
+    "child_id": "C_b0cd615b3d96ba9a",
+    "session_id": "S_b789f6d3741bc1e6",
+    "age_bucket": "5-7",
+    "audio_path": "U_7fb57a03a9d3a285.flac",
+    "audio_duration_sec": 2.28,
+    "orthographic_text": "kite"
+  },
+  {
+    "utterance_id": "U_6bc4de8af45a710e",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_84924b88d37bd733",
+    "age_bucket": "3-4",
+    "audio_path": "U_6bc4de8af45a710e.flac",
+    "audio_duration_sec": 6.672,
+    "orthographic_text": "it it finds all the animals and and then it and then it puts them in order"
+  },
+  {
+    "utterance_id": "U_3deac9050b26ff10",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_3deac9050b26ff10.flac",
+    "audio_duration_sec": 0.782,
+    "orthographic_text": "a car"
+  },
+  {
+    "utterance_id": "U_e03e8cc7cf36781f",
+    "child_id": "C_2400106ecc683af2",
+    "session_id": "S_a39d28d305bea5f7",
+    "age_bucket": "5-7",
+    "audio_path": "U_e03e8cc7cf36781f.flac",
+    "audio_duration_sec": 0.66,
+    "orthographic_text": "mother"
+  },
+  {
+    "utterance_id": "U_019654f1643ccc15",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_80c5357ec852f45e",
+    "age_bucket": "3-4",
+    "audio_path": "U_019654f1643ccc15.flac",
+    "audio_duration_sec": 2.453,
+    "orthographic_text": "get in there horsey"
+  },
+  {
+    "utterance_id": "U_cf531b80493c9790",
+    "child_id": "C_ee197d8e8787c26f",
+    "session_id": "S_094e30fb365000e6",
+    "age_bucket": "5-7",
+    "audio_path": "U_cf531b80493c9790.flac",
+    "audio_duration_sec": 1.38,
+    "orthographic_text": "old"
+  },
+  {
+    "utterance_id": "U_cf5e45439a852f23",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_a4e4c985d5043a8b",
+    "age_bucket": "3-4",
+    "audio_path": "U_cf5e45439a852f23.flac",
+    "audio_duration_sec": 0.979,
+    "orthographic_text": "chop"
+  },
+  {
+    "utterance_id": "U_5e3ccd2182ee4b7f",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_f722dd7fba4f9302",
+    "age_bucket": "3-4",
+    "audio_path": "U_5e3ccd2182ee4b7f.flac",
+    "audio_duration_sec": 0.902,
+    "orthographic_text": "gate"
+  },
+  {
+    "utterance_id": "U_d0971cfab5a88028",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_84924b88d37bd733",
+    "age_bucket": "3-4",
+    "audio_path": "U_d0971cfab5a88028.flac",
+    "audio_duration_sec": 0.841,
+    "orthographic_text": "it's like"
+  },
+  {
+    "utterance_id": "U_470c01bdd0219a40",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_241b915c4de73cb4",
+    "age_bucket": "3-4",
+    "audio_path": "U_470c01bdd0219a40.flac",
+    "audio_duration_sec": 1.552,
+    "orthographic_text": "chair chair"
+  },
+  {
+    "utterance_id": "U_ee66bf47054d849c",
+    "child_id": "C_38231c40656453c7",
+    "session_id": "S_a78540070bf93818",
+    "age_bucket": "8-11",
+    "audio_path": "U_ee66bf47054d849c.flac",
+    "audio_duration_sec": 15.398,
+    "orthographic_text": "um yeah we did well we had water in one cup and we had ice in the other cup and then we poured ice in one cup well wait we poured ice in the same cup that had water in it and see how hot cold it got we did that today in math i think"
+  },
+  {
+    "utterance_id": "U_c64cef54824c34ef",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_6683a1ae210918d7",
+    "age_bucket": "3-4",
+    "audio_path": "U_c64cef54824c34ef.flac",
+    "audio_duration_sec": 1.216,
+    "orthographic_text": "sleeping"
+  },
+  {
+    "utterance_id": "U_b1b9b2a4ef528fe7",
+    "child_id": "C_954dcc6d4070a87b",
+    "session_id": "S_9f5f41de97170669",
+    "age_bucket": "5-7",
+    "audio_path": "U_b1b9b2a4ef528fe7.flac",
+    "audio_duration_sec": 1.38,
+    "orthographic_text": "baby"
+  },
+  {
+    "utterance_id": "U_3da7f5ed9af9e958",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_3da7f5ed9af9e958.flac",
+    "audio_duration_sec": 1.137,
+    "orthographic_text": "a puzzle piece"
+  },
+  {
+    "utterance_id": "U_eea7a4406da56dca",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_241b915c4de73cb4",
+    "age_bucket": "3-4",
+    "audio_path": "U_eea7a4406da56dca.flac",
+    "audio_duration_sec": 0.804,
+    "orthographic_text": "leaf"
+  },
+  {
+    "utterance_id": "U_dbddf90364a16f17",
+    "child_id": "C_65a3fae1056786d8",
+    "session_id": "S_adc5423d8631d0bf",
+    "age_bucket": "8-11",
+    "audio_path": "U_dbddf90364a16f17.flac",
+    "audio_duration_sec": 1.012,
+    "orthographic_text": "it's going good"
+  },
+  {
+    "utterance_id": "U_3a44931dde8131b3",
+    "child_id": "C_cb672e3074c7d93b",
+    "session_id": "S_4f6981bab8d9cbb9",
+    "age_bucket": "5-7",
+    "audio_path": "U_3a44931dde8131b3.flac",
+    "audio_duration_sec": 1.21,
+    "orthographic_text": "pancake"
+  },
+  {
+    "utterance_id": "U_d1b9a565d59a909c",
+    "child_id": "C_09ac3d4788729b40",
+    "session_id": "S_94beb9b5fead372b",
+    "age_bucket": "8-11",
+    "audio_path": "U_d1b9a565d59a909c.flac",
+    "audio_duration_sec": 9.319,
+    "orthographic_text": "we learned how many passengers a boat can hold and we put that on the y axis of the graph"
+  },
+  {
+    "utterance_id": "U_e9f7113221ccc958",
+    "child_id": "C_1c5c4d537f390e66",
+    "session_id": "S_de5614dd14046c74",
+    "age_bucket": "8-11",
+    "audio_path": "U_e9f7113221ccc958.flac",
+    "audio_duration_sec": 12.703,
+    "orthographic_text": "um one of the sides has a um a piece that won't stick and the other side has a magnetic pole"
+  },
+  {
+    "utterance_id": "U_105cef49d32debd0",
+    "child_id": "C_e35b91aa79acae0a",
+    "session_id": "S_5d19d88737253742",
+    "age_bucket": "8-11",
+    "audio_path": "U_105cef49d32debd0.flac",
+    "audio_duration_sec": 10.303,
+    "orthographic_text": "um they can connect from the light bulb to the motor from and from the light bulb to the battery and the motor to the battery"
+  },
+  {
+    "utterance_id": "U_3d57d5a09f4e276b",
+    "child_id": "C_f42fff0eb7831f86",
+    "session_id": "S_36dc04ca571a94c7",
+    "age_bucket": "5-7",
+    "audio_path": "U_3d57d5a09f4e276b.flac",
+    "audio_duration_sec": 1.04,
+    "orthographic_text": "boy"
+  },
+  {
+    "utterance_id": "U_0db01ea64836365e",
+    "child_id": "C_2b851a08f5e07576",
+    "session_id": "S_7a82283496cd8e15",
+    "age_bucket": "5-7",
+    "audio_path": "U_0db01ea64836365e.flac",
+    "audio_duration_sec": 5.18,
+    "orthographic_text": "instead of drinking his milk willie ate a green apple"
+  },
+  {
+    "utterance_id": "U_967b5e24b0595a1b",
+    "child_id": "C_1c5c4d537f390e66",
+    "session_id": "S_223caa162dfa2ee4",
+    "age_bucket": "8-11",
+    "audio_path": "U_967b5e24b0595a1b.flac",
+    "audio_duration_sec": 4.326,
+    "orthographic_text": "i didn't really fully hear the question because i pressed the space space bar"
+  },
+  {
+    "utterance_id": "U_52027c2b4eca6812",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_5de39fcb91df3251",
+    "age_bucket": "3-4",
+    "audio_path": "U_52027c2b4eca6812.flac",
+    "audio_duration_sec": 0.826,
+    "orthographic_text": "a plate"
+  },
+  {
+    "utterance_id": "U_6c77abb9257315e2",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_6c77abb9257315e2.flac",
+    "audio_duration_sec": 0.541,
+    "orthographic_text": "green"
+  },
+  {
+    "utterance_id": "U_fb5f2e4d06a33b21",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_fb5f2e4d06a33b21.flac",
+    "audio_duration_sec": 0.968,
+    "orthographic_text": "what is it"
+  },
+  {
+    "utterance_id": "U_cb55a2e05397c5c1",
+    "child_id": "C_ee8ec02aa466064d",
+    "session_id": "S_62dba96e6f78d866",
+    "age_bucket": "8-11",
+    "audio_path": "U_cb55a2e05397c5c1.flac",
+    "audio_duration_sec": 4.562,
+    "orthographic_text": "this person is reacting to the hot stove"
+  },
+  {
+    "utterance_id": "U_a189287da27123f0",
+    "child_id": "C_ce014d00c8a79358",
+    "session_id": "S_02888a3f7d86beee",
+    "age_bucket": "5-7",
+    "audio_path": "U_a189287da27123f0.flac",
+    "audio_duration_sec": 1.68,
+    "orthographic_text": "eyelash"
+  },
+  {
+    "utterance_id": "U_5789aab6b1174fe9",
+    "child_id": "C_3513cd930c18ba60",
+    "session_id": "S_233d0a657879c1e4",
+    "age_bucket": "8-11",
+    "audio_path": "U_5789aab6b1174fe9.flac",
+    "audio_duration_sec": 4.177,
+    "orthographic_text": "it's a house"
+  },
+  {
+    "utterance_id": "U_930d1964270e6729",
+    "child_id": "C_e21cac3b423cad20",
+    "session_id": "S_e04e36375d706880",
+    "age_bucket": "5-7",
+    "audio_path": "U_930d1964270e6729.flac",
+    "audio_duration_sec": 3.689,
+    "orthographic_text": "the man in the truck is my friends uncle"
+  },
+  {
+    "utterance_id": "U_d2e563a504d70493",
+    "child_id": "C_6bdf1143a16c524e",
+    "session_id": "S_9d2ff6e0fe6c862c",
+    "age_bucket": "5-7",
+    "audio_path": "U_d2e563a504d70493.flac",
+    "audio_duration_sec": 2.49,
+    "orthographic_text": "tell"
+  },
+  {
+    "utterance_id": "U_b63175423c5aa574",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_a4e4c985d5043a8b",
+    "age_bucket": "3-4",
+    "audio_path": "U_b63175423c5aa574.flac",
+    "audio_duration_sec": 13.743,
+    "orthographic_text": "the boy the girl boy was is playing on the seesaw and and the boy was was licking he ice cream"
+  },
+  {
+    "utterance_id": "U_30c1439cd4feb83f",
+    "child_id": "C_aff4b531508a44f9",
+    "session_id": "S_8e96860b7e6e07e2",
+    "age_bucket": "5-7",
+    "audio_path": "U_30c1439cd4feb83f.flac",
+    "audio_duration_sec": 2.83,
+    "orthographic_text": "put the chicken in the freezer before you leave"
+  },
+  {
+    "utterance_id": "U_75a9bf1e7f96c813",
+    "child_id": "C_79eb61c13e8641d8",
+    "session_id": "S_17fc9f85ab3dba6c",
+    "age_bucket": "8-11",
+    "audio_path": "U_75a9bf1e7f96c813.flac",
+    "audio_duration_sec": 1.625,
+    "orthographic_text": "good how are you"
+  },
+  {
+    "utterance_id": "U_a024b5e36efd2e98",
+    "child_id": "C_79eb61c13e8641d8",
+    "session_id": "S_e42799de5f116523",
+    "age_bucket": "8-11",
+    "audio_path": "U_a024b5e36efd2e98.flac",
+    "audio_duration_sec": 3.759,
+    "orthographic_text": "i don't know how it sounded i didn't hear anything"
+  },
+  {
+    "utterance_id": "U_d32d08d47459481a",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_80c5357ec852f45e",
+    "age_bucket": "3-4",
+    "audio_path": "U_d32d08d47459481a.flac",
+    "audio_duration_sec": 0.73,
+    "orthographic_text": "yeah"
+  },
+  {
+    "utterance_id": "U_4adcbec56c59cc3d",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_a4e4c985d5043a8b",
+    "age_bucket": "3-4",
+    "audio_path": "U_4adcbec56c59cc3d.flac",
+    "audio_duration_sec": 0.873,
+    "orthographic_text": "fish"
+  },
+  {
+    "utterance_id": "U_2a72d1eb80d3e78b",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_a4e4c985d5043a8b",
+    "age_bucket": "3-4",
+    "audio_path": "U_2a72d1eb80d3e78b.flac",
+    "audio_duration_sec": 0.691,
+    "orthographic_text": "show"
+  },
+  {
+    "utterance_id": "U_ac96ef8100bb17bc",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_df19a9708ca7d467",
+    "age_bucket": "3-4",
+    "audio_path": "U_ac96ef8100bb17bc.flac",
+    "audio_duration_sec": 2.994,
+    "orthographic_text": "oh i see something that would match"
+  },
+  {
+    "utterance_id": "U_ec6fb953b1068c82",
+    "child_id": "C_f29b9852df636547",
+    "session_id": "S_92fbe05a90d60d11",
+    "age_bucket": "8-11",
+    "audio_path": "U_ec6fb953b1068c82.flac",
+    "audio_duration_sec": 10.921,
+    "orthographic_text": "the veins we see in the leaves help transfer all of the water and sap round and around and around and around and around and around"
+  },
+  {
+    "utterance_id": "U_07a3964d5f0a7708",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_377dfd537712a5bc",
+    "age_bucket": "3-4",
+    "audio_path": "U_07a3964d5f0a7708.flac",
+    "audio_duration_sec": 1.818,
+    "orthographic_text": "cold outside"
+  },
+  {
+    "utterance_id": "U_4a7b1ad8a4141d4b",
+    "child_id": "C_f7c80ec11c1b2997",
+    "session_id": "S_de177e1c754a32eb",
+    "age_bucket": "8-11",
+    "audio_path": "U_4a7b1ad8a4141d4b.flac",
+    "audio_duration_sec": 0.672,
+    "orthographic_text": "yes"
+  },
+  {
+    "utterance_id": "U_94cba5eefe398f12",
+    "child_id": "C_895d196967b56798",
+    "session_id": "S_daa24135ba160a8a",
+    "age_bucket": "5-7",
+    "audio_path": "U_94cba5eefe398f12.flac",
+    "audio_duration_sec": 2.28,
+    "orthographic_text": "fall"
+  },
+  {
+    "utterance_id": "U_56e6a3ecec844915",
+    "child_id": "C_b984129d04d49fb0",
+    "session_id": "S_252caef27155a3e8",
+    "age_bucket": "5-7",
+    "audio_path": "U_56e6a3ecec844915.flac",
+    "audio_duration_sec": 5.77,
+    "orthographic_text": "instead of drinking his milk willie ate a green apple"
+  },
+  {
+    "utterance_id": "U_108c91aa1e3e04bb",
+    "child_id": "C_4018966e8bce0c86",
+    "session_id": "S_2a6284bd62989502",
+    "age_bucket": "5-7",
+    "audio_path": "U_108c91aa1e3e04bb.flac",
+    "audio_duration_sec": 9.36,
+    "orthographic_text": "whenever the bell rings walk through those doors"
+  },
+  {
+    "utterance_id": "U_30441d35f005b45b",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_5de39fcb91df3251",
+    "age_bucket": "3-4",
+    "audio_path": "U_30441d35f005b45b.flac",
+    "audio_duration_sec": 1.683,
+    "orthographic_text": "a sandcastle"
+  },
+  {
+    "utterance_id": "U_84b07cdca828609a",
+    "child_id": "C_79eb61c13e8641d8",
+    "session_id": "S_2acb3d1cc307c3cc",
+    "age_bucket": "8-11",
+    "audio_path": "U_84b07cdca828609a.flac",
+    "audio_duration_sec": 7.568,
+    "orthographic_text": "it's a it's a human body so it's a system we all our parts of bodies have to work together so we can move"
+  },
+  {
+    "utterance_id": "U_3e3df8a536095d8b",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_80c5357ec852f45e",
+    "age_bucket": "3-4",
+    "audio_path": "U_3e3df8a536095d8b.flac",
+    "audio_duration_sec": 1.048,
+    "orthographic_text": "i found the horse"
+  },
+  {
+    "utterance_id": "U_9356663143708841",
+    "child_id": "C_cc5318a820cfc339",
+    "session_id": "S_7731d432427b003c",
+    "age_bucket": "5-7",
+    "audio_path": "U_9356663143708841.flac",
+    "audio_duration_sec": 2.28,
+    "orthographic_text": "seal"
+  },
+  {
+    "utterance_id": "U_f89822242bb47020",
+    "child_id": "C_af13a58c86f3fbbc",
+    "session_id": "S_3ecad54646690994",
+    "age_bucket": "5-7",
+    "audio_path": "U_f89822242bb47020.flac",
+    "audio_duration_sec": 2.83,
+    "orthographic_text": "sunday"
+  },
+  {
+    "utterance_id": "U_5f66c70f0eb721e6",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_6f87023faf88357e",
+    "age_bucket": "3-4",
+    "audio_path": "U_5f66c70f0eb721e6.flac",
+    "audio_duration_sec": 1.238,
+    "orthographic_text": "him"
+  },
+  {
+    "utterance_id": "U_63b0c16cae4d67e6",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_a4e4c985d5043a8b",
+    "age_bucket": "3-4",
+    "audio_path": "U_63b0c16cae4d67e6.flac",
+    "audio_duration_sec": 1.398,
+    "orthographic_text": "and a bike"
+  },
+  {
+    "utterance_id": "U_23100510e3162cc3",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_23100510e3162cc3.flac",
+    "audio_duration_sec": 1.17,
+    "orthographic_text": "shoes"
+  },
+  {
+    "utterance_id": "U_845bb588cbc07876",
+    "child_id": "C_d38527cd358f3bff",
+    "session_id": "S_43acbc896a8b1301",
+    "age_bucket": "8-11",
+    "audio_path": "U_845bb588cbc07876.flac",
+    "audio_duration_sec": 3.297,
+    "orthographic_text": "but i'm not this far in our actual group"
+  },
+  {
+    "utterance_id": "U_11e1b92cada76f63",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_11e1b92cada76f63.flac",
+    "audio_duration_sec": 0.972,
+    "orthographic_text": "c"
+  },
+  {
+    "utterance_id": "U_9766ffb920166948",
+    "child_id": "C_94f82b370da9f326",
+    "session_id": "S_d7c466112eaab672",
+    "age_bucket": "8-11",
+    "audio_path": "U_9766ffb920166948.flac",
+    "audio_duration_sec": 0.643,
+    "orthographic_text": "two"
+  },
+  {
+    "utterance_id": "U_c53b45c23ef2e2c3",
+    "child_id": "C_813b227d4491672f",
+    "session_id": "S_60069cbbfa6c234b",
+    "age_bucket": "8-11",
+    "audio_path": "U_c53b45c23ef2e2c3.flac",
+    "audio_duration_sec": 16.189,
+    "orthographic_text": "since if you didn't measure at the um zero um and it was like um forty inches and you measured at like started at the five it could be like um thirty five or something or"
+  },
+  {
+    "utterance_id": "U_bd9439f737a9d7a3",
+    "child_id": "C_f1509fdb7948bed1",
+    "session_id": "S_dc610db7e49c4987",
+    "age_bucket": "8-11",
+    "audio_path": "U_bd9439f737a9d7a3.flac",
+    "audio_duration_sec": 2.083,
+    "orthographic_text": "good how are you"
+  },
+  {
+    "utterance_id": "U_368040334b5b0c6a",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_80c5357ec852f45e",
+    "age_bucket": "3-4",
+    "audio_path": "U_368040334b5b0c6a.flac",
+    "audio_duration_sec": 2.742,
+    "orthographic_text": "the picture may be somewhere"
+  },
+  {
+    "utterance_id": "U_1ee88c83a2f3e5d7",
+    "child_id": "C_e4efce5e5fb137fb",
+    "session_id": "S_8a246d458082e676",
+    "age_bucket": "8-11",
+    "audio_path": "U_1ee88c83a2f3e5d7.flac",
+    "audio_duration_sec": 14.312,
+    "orthographic_text": "i think it's six because the houses the land the mountains the sky the trees and that little um blue grey brown thing"
+  },
+  {
+    "utterance_id": "U_d6b0f64a3d90c44a",
+    "child_id": "C_f7c80ec11c1b2997",
+    "session_id": "S_05fa0ff5fced0063",
+    "age_bucket": "8-11",
+    "audio_path": "U_d6b0f64a3d90c44a.flac",
+    "audio_duration_sec": 3.522,
+    "orthographic_text": "i think there are it's just that i don't know what they are right now"
+  },
+  {
+    "utterance_id": "U_75b653c288ef84cd",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_84924b88d37bd733",
+    "age_bucket": "3-4",
+    "audio_path": "U_75b653c288ef84cd.flac",
+    "audio_duration_sec": 0.965,
+    "orthographic_text": "probably"
+  },
+  {
+    "utterance_id": "U_2fcc5ebed18dd2b6",
+    "child_id": "C_6bcfd5491e81df9c",
+    "session_id": "S_c3e634c3e83396e9",
+    "age_bucket": "8-11",
+    "audio_path": "U_2fcc5ebed18dd2b6.flac",
+    "audio_duration_sec": 1.434,
+    "orthographic_text": "um no"
+  },
+  {
+    "utterance_id": "U_b51d25be1d60d0d8",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_6f87023faf88357e",
+    "age_bucket": "3-4",
+    "audio_path": "U_b51d25be1d60d0d8.flac",
+    "audio_duration_sec": 2.242,
+    "orthographic_text": "a weighter"
+  },
+  {
+    "utterance_id": "U_53719f86ade43e81",
+    "child_id": "C_978eb778448a160d",
+    "session_id": "S_7c2fbb6e138713a0",
+    "age_bucket": "5-7",
+    "audio_path": "U_53719f86ade43e81.flac",
+    "audio_duration_sec": 2.98,
+    "orthographic_text": "tray"
+  },
+  {
+    "utterance_id": "U_1416b0fbd97e4e41",
+    "child_id": "C_f29b9852df636547",
+    "session_id": "S_28b69cc8dd39f6c7",
+    "age_bucket": "8-11",
+    "audio_path": "U_1416b0fbd97e4e41.flac",
+    "audio_duration_sec": 13.791,
+    "orthographic_text": "they get their energy from um they get their energy from decomposing or eating parts of other animals or plants that have the energy"
+  },
+  {
+    "utterance_id": "U_6acc22a9108bb1f8",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_ff770149a5ad84ff",
+    "age_bucket": "3-4",
+    "audio_path": "U_6acc22a9108bb1f8.flac",
+    "audio_duration_sec": 1.084,
+    "orthographic_text": "say cage"
+  },
+  {
+    "utterance_id": "U_90f6005863f12fb2",
+    "child_id": "C_8e6661ba87cf2132",
+    "session_id": "S_c70dd10d16d3d4e8",
+    "age_bucket": "8-11",
+    "audio_path": "U_90f6005863f12fb2.flac",
+    "audio_duration_sec": 13.372,
+    "orthographic_text": "what happens is when you put the plus both of the plus signs together the power stops working but when the minus side is facing the plus side it works"
+  },
+  {
+    "utterance_id": "U_892a142e3f92fe6b",
+    "child_id": "C_e5be3c979a034ee0",
+    "session_id": "S_36019ad749baf590",
+    "age_bucket": "5-7",
+    "audio_path": "U_892a142e3f92fe6b.flac",
+    "audio_duration_sec": 2.96,
+    "orthographic_text": "coat"
+  },
+  {
+    "utterance_id": "U_d9e82215398acf10",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_ec95b10e46270538",
+    "age_bucket": "3-4",
+    "audio_path": "U_d9e82215398acf10.flac",
+    "audio_duration_sec": 1.111,
+    "orthographic_text": "they went in here"
+  },
+  {
+    "utterance_id": "U_efa29fe2a0281826",
+    "child_id": "C_5394fc72ea560514",
+    "session_id": "S_f721ebd263a42854",
+    "age_bucket": "8-11",
+    "audio_path": "U_efa29fe2a0281826.flac",
+    "audio_duration_sec": 29.174,
+    "orthographic_text": "okay i'll try let's see uh this is a circuit a full circuit with battery wires and a light bulb and the electricity goes through a pathway the wires which is the pathway that it goes through and to the light bulb"
+  },
+  {
+    "utterance_id": "U_ea1f0d2dc96a3ec3",
+    "child_id": "C_98486a2b47ca547b",
+    "session_id": "S_2c608721645a359e",
+    "age_bucket": "8-11",
+    "audio_path": "U_ea1f0d2dc96a3ec3.flac",
+    "audio_duration_sec": 1.031,
+    "orthographic_text": "bark"
+  },
+  {
+    "utterance_id": "U_7dc29c4370bee36e",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_7dc29c4370bee36e.flac",
+    "audio_duration_sec": 0.604,
+    "orthographic_text": "boy"
+  },
+  {
+    "utterance_id": "U_cdbb0f2f56df6a44",
+    "child_id": "C_6161b76d1d44bec1",
+    "session_id": "S_fdedf38acc361618",
+    "age_bucket": "5-7",
+    "audio_path": "U_cdbb0f2f56df6a44.flac",
+    "audio_duration_sec": 4.54,
+    "orthographic_text": "the children can play but they need to be quiet"
+  },
+  {
+    "utterance_id": "U_00a59783ac4b6d72",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_00a59783ac4b6d72.flac",
+    "audio_duration_sec": 0.911,
+    "orthographic_text": "d"
+  },
+  {
+    "utterance_id": "U_940d46219e4d9b06",
+    "child_id": "C_209dfbaa555a05d7",
+    "session_id": "S_87edb06c678b3266",
+    "age_bucket": "5-7",
+    "audio_path": "U_940d46219e4d9b06.flac",
+    "audio_duration_sec": 5.35,
+    "orthographic_text": "compete"
+  },
+  {
+    "utterance_id": "U_6c7a31d53f8c7438",
+    "child_id": "C_67e1985d39fbd896",
+    "session_id": "S_59f7f666a7eb785f",
+    "age_bucket": "5-7",
+    "audio_path": "U_6c7a31d53f8c7438.flac",
+    "audio_duration_sec": 2.92,
+    "orthographic_text": "did the team score a goal"
+  },
+  {
+    "utterance_id": "U_0f99b226fb2452a2",
+    "child_id": "C_5394fc72ea560514",
+    "session_id": "S_75bed1a09d4b4cc8",
+    "age_bucket": "8-11",
+    "audio_path": "U_0f99b226fb2452a2.flac",
+    "audio_duration_sec": 2.241,
+    "orthographic_text": "bye you were a great teacher"
+  },
+  {
+    "utterance_id": "U_45b17197ac768704",
+    "child_id": "C_f370834fbe405cb1",
+    "session_id": "S_14cc076fb722b552",
+    "age_bucket": "8-11",
+    "audio_path": "U_45b17197ac768704.flac",
+    "audio_duration_sec": 6.786,
+    "orthographic_text": "animals get their energy by eating producers which do have energy for"
+  },
+  {
+    "utterance_id": "U_72f634aac2cc3334",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_5de39fcb91df3251",
+    "age_bucket": "3-4",
+    "audio_path": "U_72f634aac2cc3334.flac",
+    "audio_duration_sec": 0.875,
+    "orthographic_text": "cheese"
+  },
+  {
+    "utterance_id": "U_96e5945499d5deda",
+    "child_id": "C_f2764244b505b5f5",
+    "session_id": "S_c6a2f174ca752c93",
+    "age_bucket": "8-11",
+    "audio_path": "U_96e5945499d5deda.flac",
+    "audio_duration_sec": 4.527,
+    "orthographic_text": "the metal is allowed to go through and anything"
+  },
+  {
+    "utterance_id": "U_9279ac465a6c486c",
+    "child_id": "C_30edef4655956208",
+    "session_id": "S_252ac8f234a437c3",
+    "age_bucket": "5-7",
+    "audio_path": "U_9279ac465a6c486c.flac",
+    "audio_duration_sec": 6.42,
+    "orthographic_text": "the pencil your friend picked out was missing its tip and eraser"
+  },
+  {
+    "utterance_id": "U_ee2a811a7dcc4b88",
+    "child_id": "C_aff4b531508a44f9",
+    "session_id": "S_8e96860b7e6e07e2",
+    "age_bucket": "5-7",
+    "audio_path": "U_ee2a811a7dcc4b88.flac",
+    "audio_duration_sec": 2.11,
+    "orthographic_text": "ore"
+  },
+  {
+    "utterance_id": "U_0f696fdc03d6fb26",
+    "child_id": "C_d38527cd358f3bff",
+    "session_id": "S_d70d91b57ebcc12c",
+    "age_bucket": "8-11",
+    "audio_path": "U_0f696fdc03d6fb26.flac",
+    "audio_duration_sec": 1.816,
+    "orthographic_text": "you can put them through filter"
+  },
+  {
+    "utterance_id": "U_d4d170600cb20947",
+    "child_id": "C_1c5c4d537f390e66",
+    "session_id": "S_de5614dd14046c74",
+    "age_bucket": "8-11",
+    "audio_path": "U_d4d170600cb20947.flac",
+    "audio_duration_sec": 5.844,
+    "orthographic_text": "they attract they stick together and when they repel they don't want to get by"
+  },
+  {
+    "utterance_id": "U_776524a276edec91",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_6f87023faf88357e",
+    "age_bucket": "3-4",
+    "audio_path": "U_776524a276edec91.flac",
+    "audio_duration_sec": 1.238,
+    "orthographic_text": "a doctor"
+  },
+  {
+    "utterance_id": "U_59988a02ebb07639",
+    "child_id": "C_f42fff0eb7831f86",
+    "session_id": "S_62ba91fad76ecb90",
+    "age_bucket": "5-7",
+    "audio_path": "U_59988a02ebb07639.flac",
+    "audio_duration_sec": 2.28,
+    "orthographic_text": "bacon"
+  },
+  {
+    "utterance_id": "U_cf49a4968221eea5",
+    "child_id": "C_954dcc6d4070a87b",
+    "session_id": "S_9f5f41de97170669",
+    "age_bucket": "5-7",
+    "audio_path": "U_cf49a4968221eea5.flac",
+    "audio_duration_sec": 3.0,
+    "orthographic_text": "fly"
+  },
+  {
+    "utterance_id": "U_e8ca1c16529ac34d",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_f722dd7fba4f9302",
+    "age_bucket": "3-4",
+    "audio_path": "U_e8ca1c16529ac34d.flac",
+    "audio_duration_sec": 1.382,
+    "orthographic_text": "oh also baseball"
+  },
+  {
+    "utterance_id": "U_79dfbaf59554b36c",
+    "child_id": "C_5ee2ae7fe81109ba",
+    "session_id": "S_439d627497dd1649",
+    "age_bucket": "5-7",
+    "audio_path": "U_79dfbaf59554b36c.flac",
+    "audio_duration_sec": 1.13,
+    "orthographic_text": "eyelash"
+  },
+  {
+    "utterance_id": "U_64c70ca4dc24d417",
+    "child_id": "C_aad19d59180c7ee0",
+    "session_id": "S_38de6d6865b6ccac",
+    "age_bucket": "8-11",
+    "audio_path": "U_64c70ca4dc24d417.flac",
+    "audio_duration_sec": 13.164,
+    "orthographic_text": "the next time we measured with gram pieces well we didn't actually measure with gram pieces we were deciding which one's heavier the washer the plastic chip and the wooden chip"
+  },
+  {
+    "utterance_id": "U_70152f8ab05cc893",
+    "child_id": "C_5a86e8713438e371",
+    "session_id": "S_a642e417afcd83d5",
+    "age_bucket": "5-7",
+    "audio_path": "U_70152f8ab05cc893.flac",
+    "audio_duration_sec": 4.97,
+    "orthographic_text": "this morning i wanted to go to the park but the bus was too late"
+  },
+  {
+    "utterance_id": "U_5a00e8c2455aeb87",
+    "child_id": "C_813b227d4491672f",
+    "session_id": "S_f05f03693ceb20e6",
+    "age_bucket": "8-11",
+    "audio_path": "U_5a00e8c2455aeb87.flac",
+    "audio_duration_sec": 16.073,
+    "orthographic_text": "um that you can't um weight it with water first because if you um squeeze all the water out en en and you think it's all out it might not be all out"
+  },
+  {
+    "utterance_id": "U_171e6910ecd766ff",
+    "child_id": "C_1ae7657a18e379c2",
+    "session_id": "S_34e54050431339c2",
+    "age_bucket": "8-11",
+    "audio_path": "U_171e6910ecd766ff.flac",
+    "audio_duration_sec": 1.694,
+    "orthographic_text": "because they pollute the"
+  },
+  {
+    "utterance_id": "U_89731126cea75e4a",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_89731126cea75e4a.flac",
+    "audio_duration_sec": 1.383,
+    "orthographic_text": "his name is carlo"
+  },
+  {
+    "utterance_id": "U_c3e1464338904891",
+    "child_id": "C_0fdc9c5f2c0a2282",
+    "session_id": "S_bfb5272fdbf8bd21",
+    "age_bucket": "5-7",
+    "audio_path": "U_c3e1464338904891.flac",
+    "audio_duration_sec": 1.55,
+    "orthographic_text": "mouse"
+  },
+  {
+    "utterance_id": "U_f22350db4516f0b7",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_df19a9708ca7d467",
+    "age_bucket": "3-4",
+    "audio_path": "U_f22350db4516f0b7.flac",
+    "audio_duration_sec": 1.566,
+    "orthographic_text": "it's a box"
+  },
+  {
+    "utterance_id": "U_3b0e9f3990b5ec4c",
+    "child_id": "C_bbec71a17a161c04",
+    "session_id": "S_c3952271bb035dcc",
+    "age_bucket": "8-11",
+    "audio_path": "U_3b0e9f3990b5ec4c.flac",
+    "audio_duration_sec": 20.596,
+    "orthographic_text": "um there are these little clips so you could and then you would clip like the wires into the the space and then it would make a circuit so you could um switch it on and off and stuff"
+  },
+  {
+    "utterance_id": "U_6659a38a7d7ddbf6",
+    "child_id": "C_cf29328cdfa6db34",
+    "session_id": "S_c50ce1b8fa401e57",
+    "age_bucket": "5-7",
+    "audio_path": "U_6659a38a7d7ddbf6.flac",
+    "audio_duration_sec": 3.519,
+    "orthographic_text": "the horse was ridden by the boy"
+  },
+  {
+    "utterance_id": "U_513352c0e168fa55",
+    "child_id": "C_db90afda4d19416a",
+    "session_id": "S_bd4c25b37cdf5db7",
+    "age_bucket": "5-7",
+    "audio_path": "U_513352c0e168fa55.flac",
+    "audio_duration_sec": 1.21,
+    "orthographic_text": "football"
+  },
+  {
+    "utterance_id": "U_2498205f401008ab",
+    "child_id": "C_6ef0eee113ae6289",
+    "session_id": "S_a9623560da4c220f",
+    "age_bucket": "5-7",
+    "audio_path": "U_2498205f401008ab.flac",
+    "audio_duration_sec": 3.43,
+    "orthographic_text": "the horse was ridden by the boy"
+  },
+  {
+    "utterance_id": "U_9cba2c2d5c2ded95",
+    "child_id": "C_dfdf69c04646ddd2",
+    "session_id": "S_37169b1069c704f2",
+    "age_bucket": "8-11",
+    "audio_path": "U_9cba2c2d5c2ded95.flac",
+    "audio_duration_sec": 6.23,
+    "orthographic_text": "the battery to the rivet cause of the wire"
+  },
+  {
+    "utterance_id": "U_e2e248f2fb5a1d57",
+    "child_id": "C_79eb61c13e8641d8",
+    "session_id": "S_ce652b90377c7f0f",
+    "age_bucket": "8-11",
+    "audio_path": "U_e2e248f2fb5a1d57.flac",
+    "audio_duration_sec": 4.872,
+    "orthographic_text": "well the we're made up of lots of cells just like the leaf"
+  },
+  {
+    "utterance_id": "U_0edddc60321e3110",
+    "child_id": "C_813b227d4491672f",
+    "session_id": "S_60069cbbfa6c234b",
+    "age_bucket": "8-11",
+    "audio_path": "U_0edddc60321e3110.flac",
+    "audio_duration_sec": 0.673,
+    "orthographic_text": "yeah"
+  },
+  {
+    "utterance_id": "U_5b07572147540028",
+    "child_id": "C_9c425be0129968ad",
+    "session_id": "S_80bc2317bad8d833",
+    "age_bucket": "8-11",
+    "audio_path": "U_5b07572147540028.flac",
+    "audio_duration_sec": 1.129,
+    "orthographic_text": "it was in"
+  },
+  {
+    "utterance_id": "U_f14ca9c8b5ee4cc8",
+    "child_id": "C_aff4b531508a44f9",
+    "session_id": "S_8e96860b7e6e07e2",
+    "age_bucket": "5-7",
+    "audio_path": "U_f14ca9c8b5ee4cc8.flac",
+    "audio_duration_sec": 4.07,
+    "orthographic_text": "he wouldnt go with his sister because he was tired"
+  },
+  {
+    "utterance_id": "U_d874a58632f075e2",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_d874a58632f075e2.flac",
+    "audio_duration_sec": 0.997,
+    "orthographic_text": "sock"
+  },
+  {
+    "utterance_id": "U_71c03cdedcdc4fcf",
+    "child_id": "C_f2764244b505b5f5",
+    "session_id": "S_d1d98721a4aed129",
+    "age_bucket": "8-11",
+    "audio_path": "U_71c03cdedcdc4fcf.flac",
+    "audio_duration_sec": 8.372,
+    "orthographic_text": "they pollute like no one is just told over i hate it they pollute"
+  },
+  {
+    "utterance_id": "U_fa21765c0177c88f",
+    "child_id": "C_babcfd5bd142c2dc",
+    "session_id": "S_f7a4bc7276fb4a7e",
+    "age_bucket": "5-7",
+    "audio_path": "U_fa21765c0177c88f.flac",
+    "audio_duration_sec": 5.52,
+    "orthographic_text": "the boy never eats carrots but sometimes he likes broccoli"
+  },
+  {
+    "utterance_id": "U_7dd179c47ff5c005",
+    "child_id": "C_f370834fbe405cb1",
+    "session_id": "S_ae20fdcca3dd5b8b",
+    "age_bucket": "8-11",
+    "audio_path": "U_7dd179c47ff5c005.flac",
+    "audio_duration_sec": 17.246,
+    "orthographic_text": "the wheels these make the car works they well not well they're part of the system so they make the car turn and go forward if without wheels the car would just stay in one place no matter how hard it tried to move"
+  },
+  {
+    "utterance_id": "U_27cfe7366242e46b",
+    "child_id": "C_1c5c4d537f390e66",
+    "session_id": "S_e07766ec0ed5bcb2",
+    "age_bucket": "8-11",
+    "audio_path": "U_27cfe7366242e46b.flac",
+    "audio_duration_sec": 0.602,
+    "orthographic_text": "bye"
+  },
+  {
+    "utterance_id": "U_477793b1c4d68003",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_477793b1c4d68003.flac",
+    "audio_duration_sec": 1.006,
+    "orthographic_text": "orange juice"
+  },
+  {
+    "utterance_id": "U_99981c67eb339439",
+    "child_id": "C_1c5c4d537f390e66",
+    "session_id": "S_0ece26bbf889861d",
+    "age_bucket": "8-11",
+    "audio_path": "U_99981c67eb339439.flac",
+    "audio_duration_sec": 7.456,
+    "orthographic_text": "the spacers hold the magnets and they make them repel"
+  },
+  {
+    "utterance_id": "U_755242929027bec6",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_84924b88d37bd733",
+    "age_bucket": "3-4",
+    "audio_path": "U_755242929027bec6.flac",
+    "audio_duration_sec": 1.487,
+    "orthographic_text": "hey"
+  },
+  {
+    "utterance_id": "U_e75c1769dff52f30",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_241b915c4de73cb4",
+    "age_bucket": "3-4",
+    "audio_path": "U_e75c1769dff52f30.flac",
+    "audio_duration_sec": 2.436,
+    "orthographic_text": "hand and elephant"
+  },
+  {
+    "utterance_id": "U_30d9712401745e85",
+    "child_id": "C_5394fc72ea560514",
+    "session_id": "S_e656ce4e46021337",
+    "age_bucket": "8-11",
+    "audio_path": "U_30d9712401745e85.flac",
+    "audio_duration_sec": 10.578,
+    "orthographic_text": "well according to me there is no sound it didn't sound like anything at all there is no sound"
+  },
+  {
+    "utterance_id": "U_83c69d1647ad2101",
+    "child_id": "C_ec42275da10feac8",
+    "session_id": "S_373c38152b903f9d",
+    "age_bucket": "8-11",
+    "audio_path": "U_83c69d1647ad2101.flac",
+    "audio_duration_sec": 3.501,
+    "orthographic_text": "it got taken away by a land slide"
+  },
+  {
+    "utterance_id": "U_83830ff3aad30c99",
+    "child_id": "C_13e5622d014407ad",
+    "session_id": "S_647abc3eb9bedd18",
+    "age_bucket": "8-11",
+    "audio_path": "U_83830ff3aad30c99.flac",
+    "audio_duration_sec": 1.281,
+    "orthographic_text": "that's all i know"
+  },
+  {
+    "utterance_id": "U_10f7ec0807942843",
+    "child_id": "C_a9fc4e0575bd239e",
+    "session_id": "S_036cf97c3676a844",
+    "age_bucket": "5-7",
+    "audio_path": "U_10f7ec0807942843.flac",
+    "audio_duration_sec": 6.84,
+    "orthographic_text": "i like jumping rope more than i like playing soccer on the playground"
+  },
+  {
+    "utterance_id": "U_3b2825986e0ca342",
+    "child_id": "C_e4efce5e5fb137fb",
+    "session_id": "S_4e30386d61665f4a",
+    "age_bucket": "8-11",
+    "audio_path": "U_3b2825986e0ca342.flac",
+    "audio_duration_sec": 9.36,
+    "orthographic_text": "it shows like a like a like a some kind of of drink that makes it grow food"
+  },
+  {
+    "utterance_id": "U_59bdb3914e28e0c6",
+    "child_id": "C_1b2170a5dad54935",
+    "session_id": "S_dde0c0d1ccfd7955",
+    "age_bucket": "5-7",
+    "audio_path": "U_59bdb3914e28e0c6.flac",
+    "audio_duration_sec": 3.09,
+    "orthographic_text": "tiger"
+  },
+  {
+    "utterance_id": "U_702ec194bc871a2f",
+    "child_id": "C_f29b9852df636547",
+    "session_id": "S_df9458617fa162c7",
+    "age_bucket": "8-11",
+    "audio_path": "U_702ec194bc871a2f.flac",
+    "audio_duration_sec": 14.344,
+    "orthographic_text": "i think it is showing us the mouth esophagus stomach intestines and rectum of the digestive system"
+  },
+  {
+    "utterance_id": "U_a51690bac27f3ad0",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_80c5357ec852f45e",
+    "age_bucket": "3-4",
+    "audio_path": "U_a51690bac27f3ad0.flac",
+    "audio_duration_sec": 0.733,
+    "orthographic_text": "no"
+  },
+  {
+    "utterance_id": "U_1f3522c89b139ad1",
+    "child_id": "C_57e63eee265be34a",
+    "session_id": "S_6dd1b8af62399479",
+    "age_bucket": "5-7",
+    "audio_path": "U_1f3522c89b139ad1.flac",
+    "audio_duration_sec": 7.83,
+    "orthographic_text": "the black car passed us by going very fast"
+  },
+  {
+    "utterance_id": "U_0820cbf76fb07494",
+    "child_id": "C_fdd72e28bfe9e45b",
+    "session_id": "S_5101e204aad40305",
+    "age_bucket": "8-11",
+    "audio_path": "U_0820cbf76fb07494.flac",
+    "audio_duration_sec": 6.382,
+    "orthographic_text": "they can not because they are mixed together as a solution unless you evaporate them"
+  },
+  {
+    "utterance_id": "U_2510c363ce16b02f",
+    "child_id": "C_dfdf69c04646ddd2",
+    "session_id": "S_176f55a5ab952d47",
+    "age_bucket": "8-11",
+    "audio_path": "U_2510c363ce16b02f.flac",
+    "audio_duration_sec": 3.822,
+    "orthographic_text": "it use electricity"
+  },
+  {
+    "utterance_id": "U_23d00b34c000f92c",
+    "child_id": "C_dfdf69c04646ddd2",
+    "session_id": "S_176f55a5ab952d47",
+    "age_bucket": "8-11",
+    "audio_path": "U_23d00b34c000f92c.flac",
+    "audio_duration_sec": 0.99,
+    "orthographic_text": "to the wire"
+  },
+  {
+    "utterance_id": "U_abc2a2ee2cc171ac",
+    "child_id": "C_1d8d98320de9e275",
+    "session_id": "S_59cbf45e8cc5c92a",
+    "age_bucket": "5-7",
+    "audio_path": "U_abc2a2ee2cc171ac.flac",
+    "audio_duration_sec": 1.04,
+    "orthographic_text": "cake"
+  },
+  {
+    "utterance_id": "U_ae607d13d77fb948",
+    "child_id": "C_2d40d8fefa3d7d97",
+    "session_id": "S_798fb98ea663f155",
+    "age_bucket": "5-7",
+    "audio_path": "U_ae607d13d77fb948.flac",
+    "audio_duration_sec": 5.2,
+    "orthographic_text": "would he rather play soccer or watch the game on tv"
+  },
+  {
+    "utterance_id": "U_5ae9d8b57627f26c",
+    "child_id": "C_dccac082adb4598e",
+    "session_id": "S_f95ed7ba540a4e1b",
+    "age_bucket": "5-7",
+    "audio_path": "U_5ae9d8b57627f26c.flac",
+    "audio_duration_sec": 5.779,
+    "orthographic_text": "the children can play but they need to be quiet"
+  },
+  {
+    "utterance_id": "U_17f14e1763aa31fc",
+    "child_id": "C_ee8ec02aa466064d",
+    "session_id": "S_98266b5c98eb0294",
+    "age_bucket": "8-11",
+    "audio_path": "U_17f14e1763aa31fc.flac",
+    "audio_duration_sec": 11.118,
+    "orthographic_text": "i think the lungs carry all the i think the lungs are the main organ of the breathing in the human's body"
+  },
+  {
+    "utterance_id": "U_0f90f97f7178a058",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_cf4b6ac72ae0f568",
+    "age_bucket": "3-4",
+    "audio_path": "U_0f90f97f7178a058.flac",
+    "audio_duration_sec": 2.467,
+    "orthographic_text": "can we just do like one more"
+  },
+  {
+    "utterance_id": "U_aa8d0c3c6826e752",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_aa8d0c3c6826e752.flac",
+    "audio_duration_sec": 0.866,
+    "orthographic_text": "brother"
+  },
+  {
+    "utterance_id": "U_54381871fd63b51f",
+    "child_id": "C_d3da24a60320862f",
+    "session_id": "S_9f5b952081929f98",
+    "age_bucket": "5-7",
+    "audio_path": "U_54381871fd63b51f.flac",
+    "audio_duration_sec": 2.92,
+    "orthographic_text": "old"
+  },
+  {
+    "utterance_id": "U_5c3605e3478b7eb4",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_5c3605e3478b7eb4.flac",
+    "audio_duration_sec": 0.886,
+    "orthographic_text": "up"
+  },
+  {
+    "utterance_id": "U_848b01326b09b7f2",
+    "child_id": "C_50b1c5b795be1098",
+    "session_id": "S_001d14bfde8fc1c4",
+    "age_bucket": "5-7",
+    "audio_path": "U_848b01326b09b7f2.flac",
+    "audio_duration_sec": 7.1,
+    "orthographic_text": "the children can play but they need to be quiet"
+  },
+  {
+    "utterance_id": "U_847f272ab74c1b26",
+    "child_id": "C_0c8873c41a20ecf7",
+    "session_id": "S_cfa8c15ca14f2d25",
+    "age_bucket": "8-11",
+    "audio_path": "U_847f272ab74c1b26.flac",
+    "audio_duration_sec": 1.921,
+    "orthographic_text": "oh yeah we didn't"
+  },
+  {
+    "utterance_id": "U_0fbecc972af46240",
+    "child_id": "C_2b851a08f5e07576",
+    "session_id": "S_7a82283496cd8e15",
+    "age_bucket": "5-7",
+    "audio_path": "U_0fbecc972af46240.flac",
+    "audio_duration_sec": 4.82,
+    "orthographic_text": "he wouldnt go with his sister because he was tired"
+  },
+  {
+    "utterance_id": "U_7d503028293b940d",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_5de39fcb91df3251",
+    "age_bucket": "3-4",
+    "audio_path": "U_7d503028293b940d.flac",
+    "audio_duration_sec": 0.986,
+    "orthographic_text": "a thumb"
+  },
+  {
+    "utterance_id": "U_f9b277c227ef4b8c",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_241b915c4de73cb4",
+    "age_bucket": "3-4",
+    "audio_path": "U_f9b277c227ef4b8c.flac",
+    "audio_duration_sec": 2.966,
+    "orthographic_text": "bock bock bock bock bock bock bock"
+  },
+  {
+    "utterance_id": "U_0a4de2fef8b90caa",
+    "child_id": "C_65a3fae1056786d8",
+    "session_id": "S_11bcc890e8542d77",
+    "age_bucket": "8-11",
+    "audio_path": "U_0a4de2fef8b90caa.flac",
+    "audio_duration_sec": 2.845,
+    "orthographic_text": "what variable we're going to test"
+  },
+  {
+    "utterance_id": "U_dbcc3837a1b04d31",
+    "child_id": "C_7647f43a30234ccd",
+    "session_id": "S_06b9c08b2dd76baa",
+    "age_bucket": "5-7",
+    "audio_path": "U_dbcc3837a1b04d31.flac",
+    "audio_duration_sec": 2.45,
+    "orthographic_text": "coat"
+  },
+  {
+    "utterance_id": "U_e3d33b37769e035e",
+    "child_id": "C_8e6661ba87cf2132",
+    "session_id": "S_5ee9cf6064786516",
+    "age_bucket": "8-11",
+    "audio_path": "U_e3d33b37769e035e.flac",
+    "audio_duration_sec": 35.848,
+    "orthographic_text": "well the the aluminum nail does not stick to the magnet because it's made of aluminum but the steel one does because it is made of steel and steel sticks to magnets which which is like the uh nail the steel nail it'll hold things down better than a aluminum nail will because of more heavier and it'll stick to more things so you could do more things with it"
+  },
+  {
+    "utterance_id": "U_506d70c93203c239",
+    "child_id": "C_1107d34bc5bae5d9",
+    "session_id": "S_1a32a3f21f839e36",
+    "age_bucket": "5-7",
+    "audio_path": "U_506d70c93203c239.flac",
+    "audio_duration_sec": 1.51,
+    "orthographic_text": "light"
+  },
+  {
+    "utterance_id": "U_5636dae22a8b264c",
+    "child_id": "C_e13f5ebef016f13e",
+    "session_id": "S_fb4a0c3397040273",
+    "age_bucket": "5-7",
+    "audio_path": "U_5636dae22a8b264c.flac",
+    "audio_duration_sec": 3.09,
+    "orthographic_text": "bell"
+  },
+  {
+    "utterance_id": "U_4476ab60c261b48a",
+    "child_id": "C_6936d48252887d4c",
+    "session_id": "S_c4d8c600fa5cc7b8",
+    "age_bucket": "5-7",
+    "audio_path": "U_4476ab60c261b48a.flac",
+    "audio_duration_sec": 7.099,
+    "orthographic_text": "old"
+  },
+  {
+    "utterance_id": "U_5bf306925ebf52c1",
+    "child_id": "C_65a3fae1056786d8",
+    "session_id": "S_2c4eaee91fabd915",
+    "age_bucket": "8-11",
+    "audio_path": "U_5bf306925ebf52c1.flac",
+    "audio_duration_sec": 17.801,
+    "orthographic_text": "er the propeller and the rubber band work together cause it's one propeller one rubber band when you let it go it spins if and if you do it to the right um if you if you spin it to the right and let it go it will push the air back letting it go forward"
+  },
+  {
+    "utterance_id": "U_9f4d3e49cf3ff135",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_9f4d3e49cf3ff135.flac",
+    "audio_duration_sec": 1.327,
+    "orthographic_text": "she does"
+  },
+  {
+    "utterance_id": "U_379f4284533f2f70",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_379f4284533f2f70.flac",
+    "audio_duration_sec": 1.038,
+    "orthographic_text": "a chair"
+  },
+  {
+    "utterance_id": "U_fd595740b31fec65",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_6f87023faf88357e",
+    "age_bucket": "3-4",
+    "audio_path": "U_fd595740b31fec65.flac",
+    "audio_duration_sec": 2.179,
+    "orthographic_text": "hmm cat food"
+  },
+  {
+    "utterance_id": "U_c9ca4f81662fd44e",
+    "child_id": "C_0efba146ed1d6bd1",
+    "session_id": "S_5de39fcb91df3251",
+    "age_bucket": "3-4",
+    "audio_path": "U_c9ca4f81662fd44e.flac",
+    "audio_duration_sec": 1.096,
+    "orthographic_text": "a vegetable"
+  },
+  {
+    "utterance_id": "U_163659c209ca8d4e",
+    "child_id": "C_d3da24a60320862f",
+    "session_id": "S_9995c457298b218a",
+    "age_bucket": "5-7",
+    "audio_path": "U_163659c209ca8d4e.flac",
+    "audio_duration_sec": 1.68,
+    "orthographic_text": "eat"
+  },
+  {
+    "utterance_id": "U_a085782faa9f1a58",
+    "child_id": "C_b3103202854f4cb5",
+    "session_id": "S_b5d135a15f39bf06",
+    "age_bucket": "5-7",
+    "audio_path": "U_a085782faa9f1a58.flac",
+    "audio_duration_sec": 6.67,
+    "orthographic_text": "the children can play but they need to be quiet"
+  },
+  {
+    "utterance_id": "U_bbae9a107cebbc46",
+    "child_id": "C_2762cb80e9dad52d",
+    "session_id": "S_0369b786369a5ac4",
+    "age_bucket": "3-4",
+    "audio_path": "U_bbae9a107cebbc46.flac",
+    "audio_duration_sec": 0.346,
+    "orthographic_text": "yeah"
+  },
+  {
+    "utterance_id": "U_e007e452df916b1c",
+    "child_id": "C_7633a4dc410ed5e9",
+    "session_id": "S_f6c54480bc21c083",
+    "age_bucket": "5-7",
+    "audio_path": "U_e007e452df916b1c.flac",
+    "audio_duration_sec": 1.38,
+    "orthographic_text": "phone"
+  },
+  {
+    "utterance_id": "U_491d245a3a5bab80",
+    "child_id": "C_f1509fdb7948bed1",
+    "session_id": "S_4dec39e98143e240",
+    "age_bucket": "8-11",
+    "audio_path": "U_491d245a3a5bab80.flac",
+    "audio_duration_sec": 10.388,
+    "orthographic_text": "um it looks like people have their pinkies touching and they're all um the hands are on a piece of paper"
+  },
+  {
+    "utterance_id": "U_700f2e6933bc0ff4",
+    "child_id": "C_978eb778448a160d",
+    "session_id": "S_7c2fbb6e138713a0",
+    "age_bucket": "5-7",
+    "audio_path": "U_700f2e6933bc0ff4.flac",
+    "audio_duration_sec": 7.51,
+    "orthographic_text": "would he rather play soccer or watch the game on tv"
+  },
+  {
+    "utterance_id": "U_6420d4617a58b4ba",
+    "child_id": "C_65860cfe1eb3ef6e",
+    "session_id": "S_3211792f3ea94902",
+    "age_bucket": "3-4",
+    "audio_path": "U_6420d4617a58b4ba.flac",
+    "audio_duration_sec": 1.101,
+    "orthographic_text": "telescope"
+  }
+]
