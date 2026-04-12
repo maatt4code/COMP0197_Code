@@ -1,4 +1,7 @@
 # In order to run even with unstable internet connection, I used screen to run the script.
+#
+# GenAI disclosure: Assistive tools (e.g. Cursor/LLM-based coding assistants) were used for
+# refactoring, documentation, and boilerplate. All changes were reviewed and tested locally.
 
 
 # =========================================================

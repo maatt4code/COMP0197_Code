@@ -5,8 +5,8 @@ Trains a single LoRA adapter across all child IDs (speaker-independent split).
 Mirrors LoraAdapter in train_by_age_groups_lora.py — same training loop, same
 hyperparameters from TrainingConfig, best checkpoint saved to weights/best/unique_subjects/.
 
-GenAI Disclosure: GitHub Copilot and Claude Code were used in an assistive role
-for code scaffolding and debugging. All outputs were manually reviewed.
+GenAI disclosure: Assistive tools (e.g. GitHub Copilot, Claude Code, Cursor) were used in an
+assistive role for scaffolding and debugging. All outputs were manually reviewed and tested.
 """
 
 from __future__ import annotations

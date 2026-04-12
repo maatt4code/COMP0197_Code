@@ -6,6 +6,9 @@ features, then fits a temperature scaler for calibrated routing probabilities.
 
 The resulting checkpoint is saved to:
     weights/<best-dir>/gate_mlp/gate_mlp.pt
+
+GenAI disclosure: Assistive tools (e.g. Cursor/LLM-based coding assistants) were used for
+refactoring, documentation, and boilerplate. All changes were reviewed and tested locally.
 """
 
 from __future__ import annotations

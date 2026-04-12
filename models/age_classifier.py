@@ -1,5 +1,8 @@
 """
 age_classifier.py — Shared gate classifier utilities.
+
+GenAI disclosure: Assistive tools (e.g. Cursor/LLM-based coding assistants) were used for
+refactoring, documentation, and boilerplate. All changes were reviewed and tested locally.
 """
 
 from __future__ import annotations
