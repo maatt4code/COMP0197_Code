@@ -12,12 +12,6 @@ micromamba env create -f env_comp0197_g33_submission.yml
 micromamba activate comp0197-pt-g33-submission
 ```
 
-**Extra pip packages beyond `comp0197-pt` (within the “max 3” rule):** `peft`, `soundfile`.
-
-See the **Submission** section below (and `weights/README.txt`) for what to include in your Moodle zip. The old `instruction.pdf` / build scripts have been removed as part of aggressive cleanup.
-
----
-
 ## Repository layout
 
 ```
