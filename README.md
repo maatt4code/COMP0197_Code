@@ -12,9 +12,9 @@ micromamba env create -f env_comp0197_g33_submission.yml
 micromamba activate comp0197-pt-g33-submission
 ```
 
-See [instruction.pdf](instruction.pdf) for reproduction steps required by the coursework brief.
-
 **Extra pip packages beyond `comp0197-pt` (within the “max 3” rule):** `peft`, `soundfile`.
+
+See the **Submission** section below (and `weights/README.txt`) for what to include in your Moodle zip. The old `instruction.pdf` / build scripts have been removed as part of aggressive cleanup.
 
 ---
 
@@ -25,18 +25,21 @@ config.py                          — Config and TrainingConfig
 train.py                           — Main training entry point
 test.py                            — Evaluation, metrics, CSV/JSON, and PNG figures
 metrics.py                         — WER implementation (no third-party deps)
-build_instruction_pdf.py           — Regenerates instruction.pdf (matplotlib)
 models/
+  __init__.py                      — Public API + re-exports
+  age_classifier.py                — Gate MLP classifier + calibration metrics
+  whisper_common.py                — Shared audio loading, transcription, encoder utils
+  training_log.py                  — Structured JSON logger for train.py
   train_by_age_groups_lora.py      — LoRA adapter per age bucket (3-4, 5-7, 8-11)
-  train_by_age_groups_gatingmlp.py — Gating MLP router
+  train_by_age_groups_gatingmlp.py — Gating MLP router / classifier training
   train_by_unique_subjects.py      — LoRA adapter across all child IDs
 data/
   build_age_bucket_splits.py       — Build train/val/test JSON splits from JSONL
-  build_ta_test_subset.py          — Regenerate test_ta_200.json (seed 42)
-  *.json                           — Pre-built split manifests
-  test_ta_200.json                 — 200-utterance TA subset (stratified by age)
+  *.json                           — Pre-built split manifests (train/val/test_by_*)
+  test_ta_200.json                 — 200-utterance TA subset (stratified by age, seed=42)
 weights/
-  best/                            — Default checkpoints directory (read and written)
+  best/                            — Default checkpoints directory (read by test.py / mock)
+  final/                           — Checkpoints from previous full runs
   README.txt                       — What to include in the Moodle zip
 ```
 
@@ -59,9 +62,9 @@ Training modes (`--ta-train`, `--really-train`) expect `noise/` under the base d
 
 ---
 
-## Building data splits
+## Building data splits (optional)
 
-Run once from the project root to (re)generate the JSON manifests in `data/`:
+The pre-built manifests in `data/` are ready to use. To regenerate from a fresh `train_word_transcripts.jsonl`:
 
 ```bash
 python data/build_age_bucket_splits.py \
@@ -162,24 +165,23 @@ python test.py --load-dir best --base-data-dir /path/to/data \
 | `--max-samples` | Optional cap on the first N records (debug) |
 | `--load-dir` | Weights subdirectory (default `best`) |
 
-Regenerate the TA subset:
-
-```bash
-python data/build_ta_test_subset.py
-```
-
 ---
 
-## Regenerating `instruction.pdf`
+## Quick TA test
 
 ```bash
-python build_instruction_pdf.py
+python test.py --load-dir best --base-data-dir /path/to/your/data \
+    --test-json test_ta_200.json
 ```
 
----
 
-## Submission checklist
+## Submission
 
-1. Copy trained checkpoints into `weights/best/` (ignored by git; required in the Moodle zip).
-2. Include `instruction.pdf` at the project root.
-3. Ensure markers can reach the audio corpus (default base path in `config.py`, or document `--base-data-dir` in `instruction.pdf`). Only JSON manifests live under `data/` in the repo.
+1. Copy your trained checkpoints into `weights/best/` (or document `--load-dir`).
+2. Include `weights/best/<adapter>/` (LoRA `adapter_config.json`, `adapter_model.safetensors` or `.bin`, plus `gate_mlp/gate_mlp.pt`).
+3. Ensure markers can reach the audio corpus via `--base-data-dir` (default in `config.py`).
+4. Only JSON manifests live under `data/` in the repo (audio files stay outside git).
+
+**Repo has been aggressively cleaned**: removed `draft/` notebooks, `models/train_bitfit.py`, old plot scripts, `build_instruction_pdf.py`, `test_results/`, and deleted files from git history. Only production code remains.
+
+
