@@ -8,7 +8,7 @@ gating MLP router, and a unique-subjects adapter.
 ## Environment setup
 
 ```bash
-micromamba env create -f env_comp0197_g33_submission.yml
+micromamba env create -f env_comp0197_g33_submission.yml -y
 micromamba activate comp0197-pt-g33-submission
 ```
 
@@ -17,7 +17,7 @@ micromamba activate comp0197-pt-g33-submission
 ```
 config.py                          — Config and TrainingConfig
 train.py                           — Main training entry point
-test.py                            — Evaluation, metrics, CSV/JSON, and PNG figures
+test.py                            — Evaluation, metrics, CSV/JSON output
 metrics.py                         — WER implementation (no third-party deps)
 models/
   __init__.py                      — Public API + re-exports
@@ -127,37 +127,33 @@ python train.py --really-train --adapters gate_mlp \
 
 Trained checkpoints are saved to `weights/<best-dir>/<adapter_name>/`.
 
-### Ensemble mode (`--train-ensemble`)
-
-Use **mock** (default) or **TA** mode with `--train-ensemble` — not `--really-train`.
-
-Loads all adapter checkpoints from **`weights/final/`** (age LoRAs, `unique_subjects`, `gate_mlp/gate_mlp.pt`) via `load_final_ensemble()`. The CLI still prints a placeholder until the ensemble trainer is wired up; your group can extend that path without changing the flag.
-
-`--really-train` and `--train-ensemble` cannot be combined.
+**Note on ensemble / MoLE**:
+- `test.py` fully supports **weighted MoLE** (`mole_weighted`) and **gated router** (`gated_router`) using the gate classifier probabilities from `age_classifier.py`.
+- `--train-ensemble` in `train.py` is a hook that loads everything from `weights/final/` but currently just prints a placeholder ("Ensemble training is not yet implemented"). You can extend it without changing CLI flags.
 
 ---
 
 ## Evaluation (`test.py`)
 
 Writes a timestamped folder under `test_results/` containing `summary.csv`,
-`classifier_metrics.csv`, `predictions.jsonl`, `metrics.json`, and figures
-`wer_by_bucket.png`, `gate_reliability.png`.
+`classifier_metrics.csv`, `predictions.jsonl`, and `metrics.json`.
+
+The test manifest is hardcoded to `data/test_by_child_id.json`.
 
 ```bash
-# Full test manifest (large)
-python test.py --load-dir best --base-data-dir /path/to/data \
-    --test-json test_by_child_id.json
+# Full test run
+python test.py --load-dir best --base-data-dir /path/to/data
 
-# TA / quick run — 200 utterances, stratified (data/test_ta_200.json)
+# Quick smoke test — first 200 utterances
 python test.py --load-dir best --base-data-dir /path/to/data \
-    --test-json test_ta_200.json
+    --max-samples 200
 ```
 
 | Flag | Description |
 |------|-------------|
-| `--test-json` | Filename under `data/` or absolute path to the test manifest |
 | `--max-samples` | Optional cap on the first N records (debug) |
 | `--load-dir` | Weights subdirectory (default `best`) |
+| `--gate-mc-dropout-samples` | Stochastic forward passes for gate uncertainty (default `20`; set `1` to disable) |
 
 ---
 
@@ -165,7 +161,7 @@ python test.py --load-dir best --base-data-dir /path/to/data \
 
 ```bash
 python test.py --load-dir best --base-data-dir /path/to/your/data \
-    --test-json test_ta_200.json
+    --max-samples 200
 ```
 
 
