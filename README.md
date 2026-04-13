@@ -175,13 +175,3 @@ python test.py --load-dir best --base-data-dir /path/to/your/data \
 ```
 
 
-## Submission
-
-1. Copy your trained checkpoints into `weights/best/` (or document `--load-dir`).
-2. Include `weights/best/<adapter>/` (LoRA `adapter_config.json`, `adapter_model.safetensors` or `.bin`, plus `gate_mlp/gate_mlp.pt`).
-3. Ensure markers can reach the audio corpus via `--base-data-dir` (default in `config.py`).
-4. Only JSON manifests live under `data/` in the repo (audio files stay outside git).
-
-**Repo has been aggressively cleaned**: removed `draft/` notebooks, `models/train_bitfit.py`, old plot scripts, `build_instruction_pdf.py`, `test_results/`, and deleted files from git history. Only production code remains.
-
-
